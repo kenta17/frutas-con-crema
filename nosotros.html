@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frutikóng – Nosotros</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Historia ── */
+    .story-section {
+      padding: 70px 20px;
+    }
+    .story-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .story-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .story-logo-box {
+      background: linear-gradient(135deg, #e8f5e0, #c8e6c0);
+      border-radius: 28px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 8px 28px rgba(45,122,31,0.15);
+    }
+    .story-logo-box .big-emoji { font-size: 8rem; }
+    .story-logo-box p {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: var(--verde-selva);
+      margin-top: 14px;
+    }
+    .story-text h2 {
+      font-size: 2.2rem;
+      color: var(--verde-selva);
+      margin-bottom: 18px;
+    }
+    .story-text h2 span { color: var(--rojo-fresa); }
+    .story-text p {
+      font-size: 0.97rem;
+      line-height: 1.75;
+      color: #555;
+      margin-bottom: 14px;
+    }
+    .story-text .story-highlight {
+      background: linear-gradient(135deg, #e8f5e0, #f0fbe8);
+      border-left: 4px solid var(--verde-selva);
+      border-radius: 0 12px 12px 0;
+      padding: 14px 18px;
+      font-style: italic;
+      font-weight: 600;
+      color: var(--verde-selva);
+      margin: 20px 0;
+    }
+
+    /* ── Valores ── */
+    .values-section {
+      background: var(--crema);
+      padding: 70px 20px;
+    }
+    .values-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+    .value-card {
+      background: var(--blanco);
+      border-radius: 20px;
+      padding: 30px 22px;
+      text-align: center;
+      box-shadow: 0 4px 16px var(--sombra);
+      transition: transform 0.25s;
+    }
+    .value-card:hover { transform: translateY(-5px); }
+    .value-icon { font-size: 3rem; margin-bottom: 14px; }
+    .value-card h3 { font-size: 1.15rem; color: var(--verde-selva); margin-bottom: 8px; }
+    .value-card p { font-size: 0.88rem; color: #666; line-height: 1.55; }
+
+    /* ── Equipo ── */
+    .team-section { padding: 70px 20px; }
+    .team-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px;
+    }
+    .team-card {
+      background: var(--blanco);
+      border-radius: 20px;
+      padding: 30px 22px;
+      text-align: center;
+      box-shadow: 0 4px 16px var(--sombra);
+      transition: transform 0.25s;
+    }
+    .team-card:hover { transform: translateY(-5px); }
+    .team-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e8f5e0, #c8e6c0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      margin: 0 auto 14px;
+      border: 4px solid var(--verde-claro);
+    }
+    .team-card h3 { font-size: 1.1rem; color: var(--verde-selva); margin-bottom: 4px; }
+    .team-card .team-role {
+      display: inline-block;
+      background: var(--rojo-fresa);
+      color: var(--blanco);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .team-card p { font-size: 0.85rem; color: #777; line-height: 1.5; }
+
+    /* ── Misión / Visión ── */
+    .mv-section {
+      background: var(--gradiente-hero);
+      color: var(--blanco);
+      padding: 70px 20px;
+    }
+    .mv-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .mv-card {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 32px 26px;
+      text-align: center;
+    }
+    .mv-icon { font-size: 2.8rem; margin-bottom: 14px; }
+    .mv-card h3 { font-size: 1.4rem; margin-bottom: 12px; color: var(--amarillo); }
+    .mv-card p { font-size: 0.92rem; opacity: 0.9; line-height: 1.65; }
+
+    @media (max-width: 800px) {
+      .story-inner { grid-template-columns: 1fr; }
+      .mv-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-info">
+      <span><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</span>
+      <span><i class="fa-solid fa-truck-fast"></i> Envíos rápidos en la ciudad</span>
+    </div>
+    <div class="top-right">
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+      <span style="opacity:0.4">|</span>
+      <div class="top-auth" style="display:flex;gap:14px;" id="topAuth">
+        <a href="login.html" id="linkLogin"><i class="fa-regular fa-user"></i> Iniciar sesión</a>
+        <a href="registro.html" id="linkRegistro"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+        <span id="linkNombre" style="display:none;align-items:center;gap:6px;font-weight:700;"><i class="fa-solid fa-circle-user"></i> <span id="spanNombre"></span></span>
+        <a href="miembros.html" id="linkMiZona" style="display:none;align-items:center;gap:4px;font-weight:700;"><i class="fa-solid fa-star"></i> Mi zona</a>
+        <a href="#" id="linkSalir" style="display:none;align-items:center;gap:4px;opacity:0.85;font-size:0.82rem;"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><i class="fa-solid fa-house"></i> Inicio</a></li>
+        <li><a href="productos.html"><i class="fa-solid fa-bowl-food"></i> Productos</a></li>
+        <li><a href="promociones.html"><i class="fa-solid fa-tags"></i> Promociones</a></li>
+        <li><a href="nosotros.html" class="active"><i class="fa-solid fa-users"></i> Nosotros</a></li>
+        <li><a href="galeria.html"><i class="fa-regular fa-image"></i> Galería</a></li>
+        <li><a href="contacto.html"><i class="fa-regular fa-envelope"></i> Contacto</a></li>
+      </ul>
+      <div class="navbar-right">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color:#aaa;font-size:.85rem;"></i>
+          <input type="text" placeholder="Buscar productos..." aria-label="Buscar" />
+        </div>
+        <button class="cart-btn" aria-label="Carrito">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>👥 Nosotros</h1>
+    <p>Conoce la historia y las personas detrás de Frutikóng</p>
+  </header>
+
+  <!-- HISTORIA -->
+  <section class="story-section">
+    <div class="story-inner">
+      <div class="story-visual">
+        <div class="story-logo-box">
+          <div class="big-emoji">🐵👨‍🍳</div>
+          <p>¡El sabor de la selva<br>en cada bocado!</p>
+        </div>
+      </div>
+      <div class="story-text">
+        <h2>Nuestra <span>Historia</span></h2>
+        <p>
+          Frutikóng nació del sueño de llevar el sabor más fresco y natural a las calles de
+          Oruro, Bolivia. Todo comenzó con una idea simple: combinar la frescura de las fresas
+          con la suavidad de la crema, creando una experiencia única que mezcla lo tropical
+          con lo artesanal.
+        </p>
+        <div class="story-highlight">
+          "Queremos que cada copa sea un momento de alegría, frescura y el verdadero sabor de la selva."
+        </div>
+        <p>
+          Empezamos con una pequeña carretilla en la feria local, y el éxito fue tan inmediato
+          que rápidamente crecimos hasta ofrecer delivery a toda la ciudad y un catálogo de
+          5 sabores únicos con extras personalizables.
+        </p>
+        <p>
+          Hoy, Frutikóng es el referente de fresas con crema en Oruro. Cada copa que preparamos
+          lleva el mismo amor, frescura y calidad que desde el primer día.
+        </p>
+        <a href="productos.html" class="btn-primary" style="margin-top:10px;">
+          <i class="fa-solid fa-bowl-food"></i> Ver nuestros productos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALORES -->
+  <section class="values-section">
+    <div class="section-title">
+      <h2>🌿 Nuestros Valores</h2>
+      <p>Los principios que guían cada copa que preparamos</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">🍓</div>
+        <h3>Frescura ante todo</h3>
+        <p>Seleccionamos fresas frescas cada día para garantizar la mejor experiencia en tu copa.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">❤️</div>
+        <h3>Hecho con amor</h3>
+        <p>Cada preparación lleva cuidado y dedicación. Para nosotros, no es solo comida, es un regalo.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">✅</div>
+        <h3>Calidad garantizada</h3>
+        <p>Trabajamos bajo estrictos estándares de higiene y calidad para que disfrutes sin preocupaciones.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🌿</div>
+        <h3>100% Natural</h3>
+        <p>Sin conservantes, sin artificiales. Ingredientes naturales que puedes pronunciar y reconocer.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">😊</div>
+        <h3>Clientes primero</h3>
+        <p>Tu satisfacción es nuestra prioridad. Si no quedas contento, trabajamos para solucionarlo.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🏘️</div>
+        <h3>Oruro es nuestra casa</h3>
+        <p>Somos un emprendimiento local comprometido con el crecimiento de nuestra comunidad.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  <section class="team-section">
+    <div class="section-title">
+      <h2>🐵 Nuestro Equipo Kong</h2>
+      <p>Las personas que hacen magia detrás de cada copa</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">👨‍🍳</div>
+        <h3>El Fundador</h3>
+        <span class="team-role">CEO & Chef Principal</span>
+        <p>La mente creativa detrás de Frutikóng. Apasionado por los sabores tropicales y la innovación.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">👩‍🍳</div>
+        <h3>El Equipo</h3>
+        <span class="team-role">Preparación & Atención</span>
+        <p>Nuestro equipo se encarga de que cada copa sea perfecta, fresca y presentada con amor.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar">🛵</div>
+        <h3>Delivery Kong</h3>
+        <span class="team-role">Reparto & Logística</span>
+        <p>Llevan tu pedido rápido y fresco hasta la puerta de tu casa en toda la ciudad de Oruro.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISIÓN / VISIÓN -->
+  <section class="mv-section">
+    <div class="section-title" style="margin-bottom:36px;">
+      <h2 style="color:var(--blanco);">🎯 Misión & Visión</h2>
+    </div>
+    <div class="mv-grid">
+      <div class="mv-card">
+        <div class="mv-icon">🎯</div>
+        <h3>Nuestra Misión</h3>
+        <p>
+          Ofrecer fresas con crema de la más alta calidad, con ingredientes naturales y frescos,
+          brindando una experiencia deliciosa y accesible a cada persona en Oruro. Hacemos de 
+          cada bocado un momento especial.
+        </p>
+      </div>
+      <div class="mv-card">
+        <div class="mv-icon">🚀</div>
+        <h3>Nuestra Visión</h3>
+        <p>
+          Ser el emprendimiento de fresas con crema más querido de Bolivia, expandiendo nuestros
+          sabores a más ciudades y llevando el espíritu selvático y tropical de Frutikóng
+          a todo el país.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+        <p>El sabor de la selva en cada bocado. Fresas frescas con crema artesanal desde Oruro, Bolivia.</p>
+        <div class="footer-social" style="margin-top:16px;">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">🏠 Inicio</a></li>
+          <li><a href="productos.html">🍓 Productos</a></li>
+          <li><a href="promociones.html">🏷️ Promociones</a></li>
+          <li><a href="nosotros.html">👥 Nosotros</a></li>
+          <li><a href="galeria.html">🖼️ Galería</a></li>
+          <li><a href="contacto.html">✉️ Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</a></li>
+          <li><a href="https://wa.me/59170000000"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></li>
+          <li><a href="mailto:frutikong@email.com"><i class="fa-regular fa-envelope"></i> frutikong@email.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Frutikóng – Fresas con Crema. Todos los derechos reservados. 🍓</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+  </script>
+<script src="auth.js"></script></body>
+</html>
+
+
+

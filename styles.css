@@ -1,0 +1,523 @@
+/* =============================================
+   FRUTIKÓNG - Fresas con Crema
+   Estilos globales compartidos
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+/* ── Variables ── */
+:root {
+  --verde-selva:    #2d7a1f;
+  --verde-claro:    #4caf50;
+  --verde-hoja:     #6abf3e;
+  --rojo-fresa:     #e8192c;
+  --rosa-claro:     #ff6b8a;
+  --amarillo:       #f9c800;
+  --marron:         #6b3a1f;
+  --marron-claro:   #a0622a;
+  --crema:          #fff8ee;
+  --blanco:         #ffffff;
+  --gris-texto:     #444444;
+  --sombra:         rgba(0,0,0,0.15);
+  --gradiente-hero: linear-gradient(135deg, #1a5c0a 0%, #2d7a1f 40%, #4a9e28 100%);
+  --gradiente-btn:  linear-gradient(135deg, #e8192c, #ff4d6a);
+}
+
+/* ── Reset base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: var(--crema);
+  color: var(--gris-texto);
+  min-height: 100vh;
+}
+
+h1, h2, h3, .brand-font {
+  font-family: 'Fredoka One', cursive;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+ul { list-style: none; }
+
+/* ── Top Bar ── */
+.top-bar {
+  background-color: var(--verde-selva);
+  color: var(--blanco);
+  font-size: 0.82rem;
+  padding: 6px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.top-bar .top-info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.top-bar .top-info span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.top-bar .top-right {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.top-bar .social-links {
+  display: flex;
+  gap: 10px;
+}
+
+.top-bar .social-links a {
+  color: var(--blanco);
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+.top-bar .social-links a:hover { color: var(--amarillo); }
+
+.top-bar .top-auth a {
+  color: var(--blanco);
+  font-size: 0.82rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+.top-bar .top-auth a:hover { color: var(--amarillo); }
+
+/* ── Navbar ── */
+.navbar {
+  background-color: var(--blanco);
+  box-shadow: 0 2px 12px var(--sombra);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 0 20px;
+}
+
+.navbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  gap: 16px;
+}
+
+.navbar .logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navbar .logo-wrap img {
+  height: 58px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.nav-links a {
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--gris-texto);
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: var(--rojo-fresa);
+  color: var(--blanco);
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 2px solid #ddd;
+  border-radius: 30px;
+  padding: 4px 12px;
+  background: #f9f9f9;
+  gap: 6px;
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.85rem;
+  font-family: 'Nunito', sans-serif;
+  width: 140px;
+}
+
+.cart-btn {
+  position: relative;
+  background: var(--verde-selva);
+  color: var(--blanco);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: background 0.2s;
+}
+.cart-btn:hover { background: var(--rojo-fresa); }
+
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--rojo-fresa);
+  color: #fff;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span {
+  display: block;
+  width: 26px;
+  height: 3px;
+  background: var(--verde-selva);
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+
+/* ── Footer ── */
+footer {
+  background-color: var(--verde-selva);
+  color: var(--blanco);
+  padding: 48px 20px 20px;
+  margin-top: 60px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.footer-brand img { height: 70px; margin-bottom: 12px; }
+.footer-brand p { font-size: 0.9rem; opacity: 0.85; line-height: 1.6; }
+
+.footer-col h4 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  margin-bottom: 14px;
+  color: var(--amarillo);
+}
+
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a {
+  opacity: 0.85;
+  font-size: 0.9rem;
+  transition: opacity 0.2s, color 0.2s;
+}
+.footer-col ul li a:hover { opacity: 1; color: var(--amarillo); }
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.footer-social a {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: background 0.2s, color 0.2s;
+}
+.footer-social a:hover { background: var(--amarillo); color: var(--verde-selva); }
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 18px auto 0;
+  text-align: center;
+  font-size: 0.82rem;
+  opacity: 0.7;
+}
+
+/* ── Sección página: título de sección ── */
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.section-title h2 {
+  font-size: 2.2rem;
+  color: var(--verde-selva);
+  position: relative;
+  display: inline-block;
+}
+.section-title h2::after {
+  content: '';
+  display: block;
+  width: 70%;
+  height: 4px;
+  background: var(--rojo-fresa);
+  border-radius: 4px;
+  margin: 8px auto 0;
+}
+.section-title p {
+  margin-top: 10px;
+  color: #666;
+  font-size: 1rem;
+}
+
+/* ── Botón principal ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gradiente-btn);
+  color: var(--blanco);
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.05rem;
+  padding: 13px 28px;
+  border-radius: 40px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(232,25,44,0.35);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232,25,44,0.45);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--verde-selva);
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  padding: 11px 24px;
+  border-radius: 40px;
+  border: 2px solid var(--verde-selva);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+}
+.btn-secondary:hover {
+  background: var(--verde-selva);
+  color: var(--blanco);
+}
+
+/* ── Tarjeta de producto ── */
+.product-card {
+  background: var(--blanco);
+  border-radius: 20px;
+  box-shadow: 0 4px 18px var(--sombra);
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+.product-card .card-img {
+  background: linear-gradient(135deg, #f0fbe8, #e8f5e0);
+  padding: 20px;
+  text-align: center;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product-card .card-img img { height: 160px; object-fit: contain; }
+.product-card .card-body { padding: 16px 20px 20px; flex: 1; }
+.product-card .card-body h3 {
+  font-size: 1.3rem;
+  color: var(--rojo-fresa);
+  margin-bottom: 6px;
+}
+.product-card .card-body p {
+  font-size: 0.88rem;
+  color: #666;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.price-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.price-tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--blanco);
+}
+.price-tag.chica    { background: var(--rojo-fresa); }
+.price-tag.mediana  { background: var(--amarillo); color: #333; }
+.price-tag.grande   { background: var(--verde-claro); }
+
+/* ── Beneficios strip ── */
+.benefits-strip {
+  background: var(--blanco);
+  border-top: 3px solid var(--verde-claro);
+  border-bottom: 3px solid var(--verde-claro);
+  padding: 18px 20px;
+}
+.benefits-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--gris-texto);
+}
+.benefit-item .benefit-icon {
+  font-size: 1.6rem;
+}
+
+/* ── Decoración hojas ── */
+.leaf-divider {
+  text-align: center;
+  color: var(--verde-hoja);
+  font-size: 1.5rem;
+  letter-spacing: 8px;
+  margin: 8px 0;
+  opacity: 0.6;
+}
+
+/* ── Page header interno ── */
+.page-header {
+  background: var(--gradiente-hero);
+  color: var(--blanco);
+  text-align: center;
+  padding: 60px 20px 50px;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '🌿🍃🌿🍃🌿🍃🌿🍃🌿🍃🌿🍃🌿🍃🌿';
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  font-size: 1.4rem;
+  opacity: 0.3;
+  letter-spacing: 4px;
+}
+.page-header h1 {
+  font-size: 2.6rem;
+  text-shadow: 2px 3px 8px rgba(0,0,0,0.3);
+  margin-bottom: 10px;
+}
+.page-header p {
+  font-size: 1.05rem;
+  opacity: 0.9;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+/* ── Contenedor de secciones ── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .nav-links { display: none; flex-direction: column; }
+  .nav-links.open {
+    display: flex;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: var(--blanco);
+    box-shadow: 0 8px 20px var(--sombra);
+    padding: 16px 20px;
+    z-index: 999;
+  }
+  .nav-links a { width: 100%; }
+  .hamburger { display: flex; }
+  .search-box input { width: 100px; }
+  .page-header h1 { font-size: 1.9rem; }
+}
+
+@media (max-width: 600px) {
+  .top-bar { flex-direction: column; align-items: flex-start; font-size: 0.78rem; }
+  .top-bar .top-info { gap: 10px; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .section-title h2 { font-size: 1.7rem; }
+  .benefits-inner { gap: 12px; }
+  .benefit-item { font-size: 0.82rem; }
+}

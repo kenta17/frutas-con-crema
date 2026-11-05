@@ -1,0 +1,840 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frutikóng – Productos</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Constructor de copa ── */
+    .constructor-section {
+      padding: 60px 20px 40px;
+    }
+    .constructor-box {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--blanco);
+      border-radius: 28px;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .constructor-header {
+      background: var(--gradiente-hero);
+      color: #fff;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .constructor-header h2 {
+      font-size: 1.6rem;
+      margin: 0;
+    }
+    .constructor-header p {
+      font-size: 0.9rem;
+      opacity: 0.85;
+      margin: 4px 0 0;
+    }
+    .constructor-body {
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    /* Paso */
+    .paso {
+      margin-bottom: 0;
+    }
+    .paso h3 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.05rem;
+      color: var(--verde-selva);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .paso-num {
+      background: var(--verde-selva);
+      color: #fff;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* Opciones sabor */
+    .sabor-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    .sabor-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 6px;
+      border-radius: 14px;
+      border: 2px solid #eee;
+      background: #fafafa;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Nunito', sans-serif;
+    }
+    .sabor-btn .s-emoji { font-size: 1.8rem; }
+    .sabor-btn .s-name { font-size: 0.7rem; font-weight: 700; color: #555; text-align: center; }
+    .sabor-btn .s-img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .sabor-btn:hover { border-color: var(--verde-claro); background: #f0fbe8; }
+    .sabor-btn.selected {
+      border-color: var(--verde-selva);
+      background: #e8f5e0;
+      transform: scale(1.06);
+    }
+    .sabor-btn.selected .s-name { color: var(--verde-selva); }
+
+    /* Tamaño */
+    .tamano-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .tamano-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 8px;
+      border-radius: 14px;
+      border: 2px solid #eee;
+      background: #fafafa;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Nunito', sans-serif;
+    }
+    .tamano-btn .t-emoji { font-size: 1.6rem; }
+    .tamano-btn .t-name { font-size: 0.82rem; font-weight: 800; }
+    .tamano-btn .t-ml   { font-size: 0.72rem; color: #aaa; }
+    .tamano-btn .t-precio { font-family: 'Fredoka One', cursive; font-size: 1rem; margin-top: 2px; }
+    .tamano-btn:hover { border-color: var(--rojo-fresa); background: #fff0f3; }
+    .tamano-btn.selected { border-color: var(--rojo-fresa); background: #fff0f3; transform: scale(1.04); }
+    .tamano-btn.selected .t-name { color: var(--rojo-fresa); }
+
+    /* Extras */
+    .extras-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .extra-chk {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 2px solid #eee;
+      background: #fafafa;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #555;
+    }
+    .extra-chk input[type=checkbox] { display: none; }
+    .extra-chk .e-check {
+      width: 20px; height: 20px;
+      border-radius: 6px;
+      border: 2px solid #ccc;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      transition: all 0.15s;
+      background: #fff;
+    }
+    .extra-chk.checked {
+      border-color: var(--verde-claro);
+      background: #f0fbe8;
+      color: #333;
+    }
+    .extra-chk.checked .e-check {
+      background: var(--verde-selva);
+      border-color: var(--verde-selva);
+      color: #fff;
+    }
+    .extra-chk.checked .e-check::after {
+      content: '✓';
+      font-weight: 900;
+      font-size: 0.75rem;
+    }
+    .extra-chk .e-precio { margin-left: auto; color: var(--verde-selva); font-size: 0.82rem; font-weight: 800; }
+
+    /* Resumen */
+    .resumen-box {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #f0fbe8, #e8f5e0);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      border: 2px solid var(--verde-claro);
+    }
+    .resumen-preview {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .resumen-emoji { font-size: 3rem; }
+    .resumen-info h4 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      color: var(--verde-selva);
+      margin-bottom: 3px;
+    }
+    .resumen-info p { font-size: 0.85rem; color: #666; }
+    .resumen-precio {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2rem;
+      color: var(--rojo-fresa);
+    }
+    .resumen-precio small {
+      display: block;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem;
+      color: #aaa;
+      text-align: center;
+    }
+    .btn-agregar {
+      padding: 14px 28px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #e8192c, #ff4d6a);
+      color: #fff;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.05rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(232,25,44,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-agregar:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,25,44,0.4); }
+    .btn-agregar:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* ── Catálogo referencia ── */
+    .catalogo-section { padding: 40px 20px 60px; }
+    .prod-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+    }
+    .prod-card {
+      background: var(--blanco);
+      border-radius: 20px;
+      box-shadow: 0 4px 16px var(--sombra);
+      overflow: hidden;
+      transition: transform 0.25s;
+    }
+    .prod-card:hover { transform: translateY(-5px); }
+    .prod-img {
+      height: 140px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+    }
+    .prod-body { padding: 14px 16px 18px; }
+    .prod-body h3 { font-size: 1.15rem; margin-bottom: 6px; }
+    .prod-body p  { font-size: 0.83rem; color: #666; margin-bottom: 12px; line-height: 1.4; }
+    .prod-sizes { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .size-row {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #f7f7f7; border-radius: 8px; padding: 5px 10px;
+      font-size: 0.82rem; font-weight: 700;
+    }
+    .size-row .size-name { display: flex; align-items: center; gap: 5px; }
+    .size-dot { width: 9px; height: 9px; border-radius: 50%; }
+    .dot-chica   { background: var(--rojo-fresa); }
+    .dot-mediana { background: var(--amarillo); }
+    .dot-grande  { background: var(--verde-claro); }
+    .size-row .size-price { font-family: 'Fredoka One', cursive; color: var(--verde-selva); }
+
+    /* ── Extras sección ── */
+    .extras-section { background: var(--crema); padding: 50px 20px; }
+    .extras-cards {
+      max-width: 900px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+    }
+    .extra-card {
+      background: var(--blanco); border-radius: 14px;
+      padding: 16px 12px; text-align: center;
+      box-shadow: 0 3px 12px var(--sombra);
+      transition: transform 0.2s;
+    }
+    .extra-card:hover { transform: translateY(-3px); }
+    .extra-card .extra-icon { font-size: 2rem; margin-bottom: 6px; }
+    .extra-card .extra-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+    .extra-card .extra-price {
+      display: inline-block; background: var(--verde-claro);
+      color: #fff; border-radius: 20px; padding: 2px 10px;
+      font-size: 0.8rem; font-weight: 800;
+    }
+
+    @media (max-width: 700px) {
+      .constructor-body { grid-template-columns: 1fr; }
+      .sabor-grid { grid-template-columns: repeat(5, 1fr); }
+      .resumen-box { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-info">
+      <span><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</span>
+      <span><i class="fa-solid fa-truck-fast"></i> Envíos rápidos en la ciudad</span>
+    </div>
+    <div class="top-right">
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+      <span style="opacity:0.4">|</span>
+      <div class="top-auth" style="display:flex;gap:14px;" id="topAuth">
+        <a href="login.html" id="linkLogin"><i class="fa-regular fa-user"></i> Iniciar sesión</a>
+        <a href="registro.html" id="linkRegistro"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+        <span id="linkNombre" style="display:none;align-items:center;gap:6px;font-weight:700;"><i class="fa-solid fa-circle-user"></i> <span id="spanNombre"></span></span>
+        <a href="miembros.html" id="linkMiZona" style="display:none;align-items:center;gap:4px;font-weight:700;"><i class="fa-solid fa-star"></i> Mi zona</a>
+        <a href="#" id="linkSalir" style="display:none;align-items:center;gap:4px;opacity:0.85;font-size:0.82rem;"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><i class="fa-solid fa-house"></i> Inicio</a></li>
+        <li><a href="productos.html" class="active"><i class="fa-solid fa-bowl-food"></i> Productos</a></li>
+        <li><a href="promociones.html"><i class="fa-solid fa-tags"></i> Promociones</a></li>
+        <li><a href="nosotros.html"><i class="fa-solid fa-users"></i> Nosotros</a></li>
+        <li><a href="galeria.html"><i class="fa-regular fa-image"></i> Galería</a></li>
+        <li><a href="contacto.html"><i class="fa-regular fa-envelope"></i> Contacto</a></li>
+      </ul>
+      <div class="navbar-right">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color:#aaa;font-size:.85rem;"></i>
+          <input type="text" placeholder="Buscar productos..." aria-label="Buscar" />
+        </div>
+        <button class="cart-btn" aria-label="Carrito">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>🍓 Arma tu Copa</h1>
+    <p>Elige tu sabor, tamaño y extras favoritos</p>
+  </header>
+
+  <!-- ══ CONSTRUCTOR DE COPA ══ -->
+  <section class="constructor-section">
+    <div class="constructor-box">
+      <div class="constructor-header">
+        <span style="font-size:2.4rem;">🍓</span>
+        <div>
+          <h2>¡Construye tu copa perfecta!</h2>
+          <p>Paso a paso elige sabor, tamaño y extras</p>
+        </div>
+      </div>
+
+      <div class="constructor-body">
+
+        <!-- PASO 1: Sabor -->
+        <div class="paso">
+          <h3><span class="paso-num">1</span> Elige tu sabor</h3>
+          <div class="sabor-grid" id="saborGrid">
+            <button class="sabor-btn" data-sabor="Clásica" data-emoji="🍓"
+              data-precios='{"Chica":12,"Mediana":15,"Grande":18}'>
+              <img src="assets/img/producto-clasica.png" alt="Clásica" class="s-img" />
+              <span class="s-name">Clásica</span>
+            </button>
+            <button class="sabor-btn" data-sabor="Chocolate" data-emoji="🍫"
+              data-precios='{"Chica":13,"Mediana":16,"Grande":19}'>
+              <img src="assets/img/producto-chocolate.png" alt="Chocolate" class="s-img" />
+              <span class="s-name">Chocolate</span>
+            </button>
+            <button class="sabor-btn" data-sabor="Maracuyá" data-emoji="🌟"
+              data-precios='{"Chica":13,"Mediana":16,"Grande":19}'>
+              <img src="assets/img/producto-maracuya.png" alt="Maracuyá" class="s-img" />
+              <span class="s-name">Maracuyá</span>
+            </button>
+            <button class="sabor-btn" data-sabor="Mango" data-emoji="🥭"
+              data-precios='{"Chica":13,"Mediana":16,"Grande":19}'>
+              <img src="assets/img/producto-mango.png" alt="Mango" class="s-img" />
+              <span class="s-name">Mango</span>
+            </button>
+            <button class="sabor-btn" data-sabor="Frutos del Bosque" data-emoji="🫐"
+              data-precios='{"Chica":14,"Mediana":17,"Grande":20}'>
+              <img src="assets/img/producto-bosque.png" alt="Frutos del Bosque" class="s-img" />
+              <span class="s-name">Bosque</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PASO 2: Tamaño -->
+        <div class="paso">
+          <h3><span class="paso-num">2</span> Elige el tamaño</h3>
+          <div class="tamano-grid" id="tamanoGrid">
+            <button class="tamano-btn" data-tamano="Chica" data-ml="160ml">
+              <span class="t-emoji">🥤</span>
+              <span class="t-name" style="color:var(--rojo-fresa);">Chica</span>
+              <span class="t-ml">160 ml</span>
+              <span class="t-precio" id="precio-chica" style="color:var(--rojo-fresa);">Bs —</span>
+            </button>
+            <button class="tamano-btn" data-tamano="Mediana" data-ml="250ml">
+              <span class="t-emoji">🥤</span>
+              <span class="t-name" style="color:#d4a000;">Mediana</span>
+              <span class="t-ml">250 ml</span>
+              <span class="t-precio" id="precio-mediana" style="color:#d4a000;">Bs —</span>
+            </button>
+            <button class="tamano-btn" data-tamano="Grande" data-ml="400ml">
+              <span class="t-emoji">🥤</span>
+              <span class="t-name" style="color:var(--verde-claro);">Grande</span>
+              <span class="t-ml">400 ml</span>
+              <span class="t-precio" id="precio-grande" style="color:var(--verde-claro);">Bs —</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- PASO 3: Extras -->
+        <div class="paso" style="grid-column:1/-1;">
+          <h3><span class="paso-num">3</span> Agrega extras (opcional)</h3>
+          <div class="extras-grid" id="extrasGrid">
+            <label class="extra-chk" data-nombre="Oreo" data-precio="2">
+              <input type="checkbox" />
+              <span class="e-check"></span>
+              <span>🍪 Oreo</span>
+              <span class="e-precio">+Bs 2</span>
+            </label>
+            <label class="extra-chk" data-nombre="Chispitas" data-precio="1">
+              <input type="checkbox" />
+              <span class="e-check"></span>
+              <span>🍫 Chispitas</span>
+              <span class="e-precio">+Bs 1</span>
+            </label>
+            <label class="extra-chk" data-nombre="Chocolate rallado" data-precio="1">
+              <input type="checkbox" />
+              <span class="e-check"></span>
+              <span>🍫 Choc. rallado</span>
+              <span class="e-precio">+Bs 1</span>
+            </label>
+            <label class="extra-chk" data-nombre="Grageas" data-precio="1">
+              <input type="checkbox" />
+              <span class="e-check"></span>
+              <span>🌈 Grageas</span>
+              <span class="e-precio">+Bs 1</span>
+            </label>
+            <label class="extra-chk" data-nombre="Maní" data-precio="1">
+              <input type="checkbox" />
+              <span class="e-check"></span>
+              <span>🥜 Maní</span>
+              <span class="e-precio">+Bs 1</span>
+            </label>
+            <label class="extra-chk" data-nombre="Fruta adicional" data-precio="2">
+              <input type="checkbox" />
+              <span class="e-check"></span>
+              <span>🍓 Fruta adicional</span>
+              <span class="e-precio">+Bs 2</span>
+            </label>
+            <label class="extra-chk" data-nombre="Salsa de fresa" data-precio="1">
+              <input type="checkbox" />
+              <span class="e-check"></span>
+              <span>🍯 Salsa de fresa</span>
+              <span class="e-precio">+Bs 1</span>
+            </label>
+            <label class="extra-chk" data-nombre="Salsa de chocolate" data-precio="1">
+              <input type="checkbox" />
+              <span class="e-check"></span>
+              <span>🍯 Salsa de choc.</span>
+              <span class="e-precio">+Bs 1</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- RESUMEN -->
+        <div class="resumen-box" id="resumenBox">
+          <div class="resumen-preview">
+            <span class="resumen-emoji" id="resumenEmoji">🍓</span>
+            <div class="resumen-info">
+              <h4 id="resumenNombre">Selecciona sabor y tamaño</h4>
+              <p id="resumenExtras">Sin extras</p>
+            </div>
+          </div>
+          <div class="resumen-precio">
+            <span id="resumenPrecio">Bs —</span>
+            <small>precio total</small>
+          </div>
+          <button class="btn-agregar" id="btnAgregar" disabled>
+            <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+          </button>
+        </div>
+
+      </div><!-- /constructor-body -->
+    </div><!-- /constructor-box -->
+  </section>
+
+  <!-- ══ CATÁLOGO REFERENCIA ══ -->
+  <section class="catalogo-section">
+    <div class="section-title">
+      <h2>📋 Precios de referencia</h2>
+      <p>Todos los sabores disponibles con sus precios por tamaño</p>
+    </div>
+    <div class="prod-grid">
+
+      <div class="prod-card">
+        <div class="prod-img" style="background:linear-gradient(135deg,#ffe0e6,#ffc0cb);">
+          <img src="assets/img/producto-clasica.png" alt="Clásica" style="height:120px;object-fit:contain;" />
+        </div>
+        <div class="prod-body">
+          <h3 style="color:var(--rojo-fresa);">Clásica</h3>
+          <p>Fresas frescas con crema natural.</p>
+          <div class="prod-sizes">
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-chica"></span>Chica</span><span class="size-price">Bs 12</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-mediana"></span>Mediana</span><span class="size-price">Bs 15</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-grande"></span>Grande</span><span class="size-price">Bs 18</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-img" style="background:linear-gradient(135deg,#4a1a00,#7b3f1a);">
+          <img src="assets/img/producto-chocolate.png" alt="Chocolate" style="height:120px;object-fit:contain;" />
+        </div>
+        <div class="prod-body">
+          <h3 style="color:#7b3f1a;">Chocolate</h3>
+          <p>Fresas con crema y chocolate.</p>
+          <div class="prod-sizes">
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-chica"></span>Chica</span><span class="size-price">Bs 13</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-mediana"></span>Mediana</span><span class="size-price">Bs 16</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-grande"></span>Grande</span><span class="size-price">Bs 19</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-img" style="background:linear-gradient(135deg,#fff3b0,#ffe066);">
+          <img src="assets/img/producto-maracuya.png" alt="Maracuyá" style="height:120px;object-fit:contain;" />
+        </div>
+        <div class="prod-body">
+          <h3 style="color:#b8860b;">Maracuyá</h3>
+          <p>Fresas con crema y maracuyá.</p>
+          <div class="prod-sizes">
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-chica"></span>Chica</span><span class="size-price">Bs 13</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-mediana"></span>Mediana</span><span class="size-price">Bs 16</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-grande"></span>Grande</span><span class="size-price">Bs 19</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-img" style="background:linear-gradient(135deg,#ffe0a0,#ffc040);">
+          <img src="assets/img/producto-mango.png" alt="Mango" style="height:120px;object-fit:contain;" />
+        </div>
+        <div class="prod-body">
+          <h3 style="color:#e07b00;">Mango</h3>
+          <p>Fresas con crema y mango.</p>
+          <div class="prod-sizes">
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-chica"></span>Chica</span><span class="size-price">Bs 13</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-mediana"></span>Mediana</span><span class="size-price">Bs 16</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-grande"></span>Grande</span><span class="size-price">Bs 19</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-img" style="background:linear-gradient(135deg,#e0d0f0,#b080d0);">
+          <img src="assets/img/producto-bosque.png" alt="Frutos del Bosque" style="height:120px;object-fit:contain;" />
+        </div>
+        <div class="prod-body">
+          <h3 style="color:#7b3fa0;">Frutos del Bosque</h3>
+          <p>Fresas con crema y frutos del bosque.</p>
+          <div class="prod-sizes">
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-chica"></span>Chica</span><span class="size-price">Bs 14</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-mediana"></span>Mediana</span><span class="size-price">Bs 17</span></div>
+            <div class="size-row"><span class="size-name"><span class="size-dot dot-grande"></span>Grande</span><span class="size-price">Bs 20</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXTRAS SECCIÓN -->
+  <section class="extras-section">
+    <div class="section-title">
+      <h2>✨ Extras disponibles</h2>
+      <p>Personaliza tu copa con estos complementos</p>
+    </div>
+    <div class="extras-cards">
+      <div class="extra-card"><div class="extra-icon">🍪</div><div class="extra-name">Oreo</div><span class="extra-price">+ Bs 2</span></div>
+      <div class="extra-card"><div class="extra-icon">🍫</div><div class="extra-name">Chispitas</div><span class="extra-price">+ Bs 1</span></div>
+      <div class="extra-card"><div class="extra-icon">🍫</div><div class="extra-name">Choc. rallado</div><span class="extra-price">+ Bs 1</span></div>
+      <div class="extra-card"><div class="extra-icon">🌈</div><div class="extra-name">Grageas</div><span class="extra-price">+ Bs 1</span></div>
+      <div class="extra-card"><div class="extra-icon">🥜</div><div class="extra-name">Maní</div><span class="extra-price">+ Bs 1</span></div>
+      <div class="extra-card"><div class="extra-icon">🍓</div><div class="extra-name">Fruta adicional</div><span class="extra-price">+ Bs 2</span></div>
+      <div class="extra-card"><div class="extra-icon">🍯</div><div class="extra-name">Salsa (choc/fresa)</div><span class="extra-price">+ Bs 1</span></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+        <p>El sabor de la selva en cada bocado. Fresas frescas con crema artesanal desde Oruro, Bolivia.</p>
+        <div class="footer-social" style="margin-top:16px;">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://wa.me/59178606168" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">🏠 Inicio</a></li>
+          <li><a href="productos.html">🍓 Productos</a></li>
+          <li><a href="promociones.html">🏷️ Promociones</a></li>
+          <li><a href="nosotros.html">👥 Nosotros</a></li>
+          <li><a href="galeria.html">🖼️ Galería</a></li>
+          <li><a href="contacto.html">✉️ Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</a></li>
+          <li><a href="https://wa.me/59178606168"><i class="fa-brands fa-whatsapp"></i> +591 78606168</a></li>
+          <li><a href="mailto:fernandokenta@gmail.com"><i class="fa-regular fa-envelope"></i> fernandokenta@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Frutikóng – Fresas con Crema. Todos los derechos reservados. 🍓</p>
+    </div>
+  </footer>
+
+  <script src="carrito.js"></script>
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // ── Buscador en tiempo real ──
+    const searchInput = document.querySelector('.search-box input');
+    const searchIcon  = document.querySelector('.search-box i');
+
+    function filtrar(q) {
+      q = q.toLowerCase().trim();
+      document.querySelectorAll('.prod-card').forEach(card => {
+        const nombre = card.querySelector('h3').textContent.toLowerCase();
+        const desc   = card.querySelector('p') ? card.querySelector('p').textContent.toLowerCase() : '';
+        card.style.display = (!q || nombre.includes(q) || desc.includes(q)) ? '' : 'none';
+      });
+      document.querySelectorAll('.sabor-btn').forEach(btn => {
+        const sabor = btn.dataset.sabor.toLowerCase();
+        btn.style.opacity   = (!q || sabor.includes(q)) ? '1' : '0.3';
+        btn.style.transform = (!q || sabor.includes(q)) ? '' : 'scale(0.95)';
+      });
+      const grid   = document.querySelector('.prod-grid');
+      let noRes    = document.getElementById('no-resultados');
+      const visible = [...document.querySelectorAll('.prod-card')].some(c => c.style.display !== 'none');
+      if (!visible && q) {
+        if (!noRes) {
+          noRes = document.createElement('div');
+          noRes.id = 'no-resultados';
+          noRes.style.cssText = `grid-column:1/-1;text-align:center;padding:40px;color:#aaa;font-family:'Fredoka One',cursive;font-size:1.1rem;`;
+          grid.appendChild(noRes);
+        }
+        noRes.innerHTML = `🔍 No encontramos "<b style="color:#e8192c">${q}</b>" en nuestro menú`;
+      } else if (noRes) { noRes.remove(); }
+    }
+
+    searchInput.addEventListener('input', () => filtrar(searchInput.value));
+    searchIcon.style.cursor = 'pointer';
+    searchIcon.addEventListener('click', () => filtrar(searchInput.value));
+
+    // Leer parámetro ?q= de la URL (cuando viene desde index u otras páginas)
+    const params = new URLSearchParams(window.location.search);
+    const qParam = params.get('q');
+    if (qParam) {
+      searchInput.value = qParam;
+      filtrar(qParam);
+      // Scroll suave al catálogo
+      document.querySelector('.catalogo-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ── Estado del constructor ──
+    let saborSel  = null; // { sabor, emoji, precios }
+    let tamanoSel = null; // { tamano, precio_base }
+
+    // ── Sabores ──
+    document.querySelectorAll('.sabor-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.sabor-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        saborSel = {
+          sabor:   btn.dataset.sabor,
+          emoji:   btn.dataset.emoji,
+          precios: JSON.parse(btn.dataset.precios)
+        };
+        // Actualizar precios en botones de tamaño
+        document.getElementById('precio-chica').textContent   = `Bs ${saborSel.precios['Chica']}`;
+        document.getElementById('precio-mediana').textContent = `Bs ${saborSel.precios['Mediana']}`;
+        document.getElementById('precio-grande').textContent  = `Bs ${saborSel.precios['Grande']}`;
+        // Si ya había tamaño seleccionado, recalcular
+        if (tamanoSel) {
+          tamanoSel.precio_base = saborSel.precios[tamanoSel.tamano];
+        }
+        actualizarResumen();
+      });
+    });
+
+    // ── Tamaños ──
+    document.querySelectorAll('.tamano-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!saborSel) {
+          mostrarToast('¡Primero elige un sabor! 🍓');
+          return;
+        }
+        document.querySelectorAll('.tamano-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        tamanoSel = {
+          tamano:      btn.dataset.tamano,
+          ml:          btn.dataset.ml,
+          precio_base: saborSel.precios[btn.dataset.tamano]
+        };
+        actualizarResumen();
+      });
+    });
+
+    // ── Extras ──
+    document.querySelectorAll('.extra-chk').forEach(lbl => {
+      lbl.addEventListener('click', (e) => {
+        e.preventDefault(); // evitar doble toggle del checkbox nativo
+        lbl.classList.toggle('checked');
+        const cb = lbl.querySelector('input[type=checkbox]');
+        cb.checked = lbl.classList.contains('checked');
+        actualizarResumen();
+      });
+    });
+
+    // ── Actualizar resumen ──
+    function actualizarResumen() {
+      const extrasSeleccionados = [];
+      let precioExtras = 0;
+      document.querySelectorAll('.extra-chk.checked').forEach(lbl => {
+        const precio = parseInt(lbl.dataset.precio);
+        extrasSeleccionados.push({ nombre: lbl.dataset.nombre, precio });
+        precioExtras += precio;
+      });
+
+      const emojiEl   = document.getElementById('resumenEmoji');
+      const nombreEl  = document.getElementById('resumenNombre');
+      const extrasEl  = document.getElementById('resumenExtras');
+      const precioEl  = document.getElementById('resumenPrecio');
+      const btnAgregar = document.getElementById('btnAgregar');
+
+      if (saborSel) emojiEl.textContent = saborSel.emoji;
+
+      if (saborSel && tamanoSel) {
+        const total = tamanoSel.precio_base + precioExtras;
+        nombreEl.textContent = `${saborSel.sabor} — ${tamanoSel.tamano} (${tamanoSel.ml})`;
+        extrasEl.textContent = extrasSeleccionados.length > 0
+          ? extrasSeleccionados.map(e => e.nombre).join(', ')
+          : 'Sin extras';
+        precioEl.textContent = `Bs ${total}`;
+        btnAgregar.disabled = false;
+
+        // Guardar en botón para usar al agregar
+        btnAgregar.dataset.total   = total;
+        btnAgregar.dataset.extras  = JSON.stringify(extrasSeleccionados);
+      } else {
+        nombreEl.textContent = saborSel
+          ? 'Ahora elige el tamaño'
+          : 'Selecciona sabor y tamaño';
+        extrasEl.textContent = 'Sin extras';
+        precioEl.textContent = 'Bs —';
+        btnAgregar.disabled = true;
+      }
+    }
+
+    // ── Agregar al carrito ──
+    document.getElementById('btnAgregar').addEventListener('click', () => {
+      const btn = document.getElementById('btnAgregar');
+      if (btn.disabled) return;
+
+      agregarAlCarrito({
+        sabor:        saborSel.sabor,
+        emoji:        saborSel.emoji,
+        tamano:       tamanoSel.tamano,
+        ml:           tamanoSel.ml,
+        precio_base:  tamanoSel.precio_base,
+        extras:       JSON.parse(btn.dataset.extras || '[]'),
+        precio_total: parseInt(btn.dataset.total)
+      });
+
+      // Reset selección visual
+      document.querySelectorAll('.sabor-btn, .tamano-btn').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('.extra-chk').forEach(lbl => {
+        lbl.classList.remove('checked');
+        lbl.querySelector('input').checked = false;
+      });
+      saborSel  = null;
+      tamanoSel = null;
+      actualizarResumen();
+      document.getElementById('precio-chica').textContent   = 'Bs —';
+      document.getElementById('precio-mediana').textContent = 'Bs —';
+      document.getElementById('precio-grande').textContent  = 'Bs —';
+    });
+  </script>
+<script src="auth.js"></script></body>
+</html>
+
+
+

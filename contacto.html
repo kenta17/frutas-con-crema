@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frutikóng – Contacto</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .contact-section { padding: 70px 20px; }
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .contact-info h2 { font-size: 2rem; color: var(--verde-selva); margin-bottom: 10px; }
+    .contact-info .intro { font-size: 0.97rem; color: #666; line-height: 1.65; margin-bottom: 28px; }
+
+    .info-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--blanco);
+      border-radius: 16px;
+      padding: 18px 20px;
+      box-shadow: 0 3px 14px var(--sombra);
+      margin-bottom: 14px;
+      transition: transform 0.2s;
+    }
+    .info-card:hover { transform: translateX(4px); }
+    .info-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .info-card-text h4 { font-size: 0.95rem; color: var(--verde-selva); margin-bottom: 3px; }
+    .info-card-text p, .info-card-text a { font-size: 0.88rem; color: #555; line-height: 1.4; }
+    .info-card-text a:hover { color: var(--verde-selva); }
+
+    .social-section { margin-top: 28px; }
+    .social-section h3 { font-size: 1.1rem; color: var(--verde-selva); margin-bottom: 14px; }
+    .social-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+    .social-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 18px; border-radius: 30px;
+      font-weight: 700; font-size: 0.88rem;
+      color: var(--blanco); text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .social-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 16px rgba(0,0,0,0.2); }
+    .sb-fb  { background: #1877f2; }
+    .sb-ig  { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .sb-tt  { background: #010101; }
+    .sb-wa  { background: #25D366; }
+
+    .schedule-card {
+      background: linear-gradient(135deg, #e8f5e0, #f0fbe8);
+      border-radius: 16px; padding: 18px 20px; margin-top: 16px;
+      border-left: 4px solid var(--verde-claro);
+    }
+    .schedule-card h4 { font-size: 0.95rem; color: var(--verde-selva); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+    .schedule-row {
+      display: flex; justify-content: space-between;
+      font-size: 0.88rem; color: #555;
+      padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .schedule-row:last-child { border-bottom: none; }
+    .schedule-row span:last-child { font-weight: 700; color: var(--verde-selva); }
+
+    .contact-form-wrap {
+      background: var(--blanco); border-radius: 24px;
+      padding: 36px 32px; box-shadow: 0 6px 24px var(--sombra);
+    }
+    .contact-form-wrap h2 { font-size: 1.7rem; color: var(--verde-selva); margin-bottom: 6px; }
+    .contact-form-wrap .form-sub { font-size: 0.9rem; color: #888; margin-bottom: 24px; }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-weight: 700; font-size: 0.88rem; color: #444; margin-bottom: 6px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: 12px 16px;
+      border: 2px solid #e8e8e8; border-radius: 12px;
+      font-family: 'Nunito', sans-serif; font-size: 0.92rem;
+      color: #333; background: #f9f9f9; outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--verde-claro); background: var(--blanco); }
+    .form-group textarea { resize: vertical; min-height: 110px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .form-submit {
+      width: 100%; padding: 14px; border-radius: 30px;
+      background: var(--gradiente-btn); color: var(--blanco);
+      font-family: 'Fredoka One', cursive; font-size: 1.05rem;
+      border: none; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(232,25,44,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,25,44,0.4); }
+
+    .form-success {
+      display: none;
+      background: linear-gradient(135deg, #e8f5e0, #f0fbe8);
+      border: 2px solid var(--verde-claro);
+      border-radius: 16px; padding: 24px; text-align: center; margin-top: 16px;
+    }
+    .form-success .success-icon { font-size: 3rem; margin-bottom: 10px; }
+    .form-success h3 { color: var(--verde-selva); margin-bottom: 6px; }
+    .form-success p { font-size: 0.9rem; color: #555; }
+
+    .whatsapp-float {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 58px; height: 58px; background: #25D366;
+      color: var(--blanco); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+      z-index: 999; text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: pulse-wa 2s infinite;
+    }
+    .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(37,211,102,0.55); }
+    @keyframes pulse-wa {
+      0%, 100% { box-shadow: 0 4px 16px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 4px 28px rgba(37,211,102,0.7); }
+    }
+
+    .map-section { padding: 0 20px 60px; }
+    .map-inner { max-width: 1100px; margin: 0 auto; }
+
+    @media (max-width: 800px) {
+      .contact-inner { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form-wrap { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-info">
+      <span><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</span>
+      <span><i class="fa-solid fa-truck-fast"></i> Envíos rápidos en la ciudad</span>
+    </div>
+    <div class="top-right">
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+      <span style="opacity:0.4">|</span>
+      <div class="top-auth" style="display:flex;gap:14px;" id="topAuth">
+        <a href="login.html" id="linkLogin"><i class="fa-regular fa-user"></i> Iniciar sesión</a>
+        <a href="registro.html" id="linkRegistro"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+        <span id="linkNombre" style="display:none;align-items:center;gap:6px;font-weight:700;"><i class="fa-solid fa-circle-user"></i> <span id="spanNombre"></span></span>
+        <a href="miembros.html" id="linkMiZona" style="display:none;align-items:center;gap:4px;font-weight:700;"><i class="fa-solid fa-star"></i> Mi zona</a>
+        <a href="#" id="linkSalir" style="display:none;align-items:center;gap:4px;opacity:0.85;font-size:0.82rem;"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><i class="fa-solid fa-house"></i> Inicio</a></li>
+        <li><a href="productos.html"><i class="fa-solid fa-bowl-food"></i> Productos</a></li>
+        <li><a href="promociones.html"><i class="fa-solid fa-tags"></i> Promociones</a></li>
+        <li><a href="nosotros.html"><i class="fa-solid fa-users"></i> Nosotros</a></li>
+        <li><a href="galeria.html"><i class="fa-regular fa-image"></i> Galería</a></li>
+        <li><a href="contacto.html" class="active"><i class="fa-regular fa-envelope"></i> Contacto</a></li>
+      </ul>
+      <div class="navbar-right">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color:#aaa;font-size:.85rem;"></i>
+          <input type="text" placeholder="Buscar productos..." aria-label="Buscar" />
+        </div>
+        <button class="cart-btn" aria-label="Carrito">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>✉️ Contacto</h1>
+    <p>Estamos para atenderte. ¡Escríbenos o haz tu pedido!</p>
+  </header>
+
+  <!-- CONTACTO PRINCIPAL -->
+  <section class="contact-section">
+    <div class="contact-inner">
+
+      <!-- INFO -->
+      <div class="contact-info">
+        <h2>🍓 ¡Hablemos!</h2>
+        <p class="intro">
+          ¿Tienes preguntas, quieres hacer un pedido especial o simplemente quieres decirnos
+          cuánto te gustó tu copa? Estamos siempre disponibles para atenderte.
+        </p>
+
+        <div class="info-card">
+          <div class="info-icon" style="background:#e8f5e0; color:var(--verde-selva);">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <div class="info-card-text">
+            <h4>Ubicación</h4>
+            <p>Oruro, Bolivia<br>Disponible para delivery en toda la ciudad</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon" style="background:#e8fff0; color:#25D366;">
+            <i class="fa-brands fa-whatsapp"></i>
+          </div>
+          <div class="info-card-text">
+            <h4>WhatsApp (pedidos)</h4>
+            <a href="https://wa.me/59178606168">+591 78606168</a>
+            <p>Respuesta rápida en horario de atención</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon" style="background:#fce4ec; color:var(--rojo-fresa);">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+          <div class="info-card-text">
+            <h4>Correo electrónico</h4>
+            <a href="mailto:fernandokenta@gmail.com">fernandokenta@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="schedule-card">
+          <h4><i class="fa-regular fa-clock"></i> Horario de atención</h4>
+          <div class="schedule-row"><span>Lunes – Viernes</span><span>10:00 – 20:00</span></div>
+          <div class="schedule-row"><span>Sábados</span><span>10:00 – 21:00</span></div>
+          <div class="schedule-row"><span>Domingos</span><span>11:00 – 19:00</span></div>
+        </div>
+
+        <div class="social-section">
+          <h3>📱 Síguenos en redes</h3>
+          <div class="social-buttons">
+            <a href="#" class="social-btn sb-fb"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+            <a href="#" class="social-btn sb-ig"><i class="fa-brands fa-instagram"></i> Instagram</a>
+            <a href="#" class="social-btn sb-tt"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+            <a href="https://wa.me/59178606168" class="social-btn sb-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMULARIO -->
+      <div class="contact-form-wrap">
+        <h2>📝 Envíanos un mensaje</h2>
+        <p class="form-sub">Para pedidos especiales, sugerencias o consultas</p>
+
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre *</label>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required />
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono / WhatsApp *</label>
+              <input type="tel" id="telefono" name="telefono" placeholder="+591 78606168" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" />
+          </div>
+          <div class="form-group">
+            <label for="asunto">Asunto *</label>
+            <select id="asunto" name="asunto" required>
+              <option value="">-- Selecciona un asunto --</option>
+              <option value="pedido">🍓 Hacer un pedido</option>
+              <option value="delivery">🛵 Consulta de delivery</option>
+              <option value="combo">🎁 Pedido de combo especial</option>
+              <option value="evento">🎉 Pedido para evento</option>
+              <option value="sugerencia">💬 Sugerencia o comentario</option>
+              <option value="otro">📌 Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mensaje">Mensaje *</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos tu pedido o consulta..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            <i class="fa-brands fa-whatsapp"></i> Enviar por WhatsApp
+          </button>
+        </form>
+
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">🎉</div>
+          <h3>¡Mensaje enviado!</h3>
+          <p>Nos pondremos en contacto contigo muy pronto. ¡Gracias por escribirnos!</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MAPA -->
+  <section class="map-section">
+    <div class="section-title">
+      <h2>📍 Encuéntranos en Oruro</h2>
+      <p>Delivery disponible a toda la ciudad</p>
+    </div>
+    <div class="map-inner">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1230.4415048694782!2d-67.10746144472382!3d-17.969421231401487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sbo!4v1791212123167!5m2!1ses!2sbo"
+        width="100%"
+        height="380"
+        style="border:0; border-radius:20px; display:block; box-shadow:0 4px 16px rgba(0,0,0,0.15);"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        title="Ubicación Frutikóng en Oruro, Bolivia">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+        <p>El sabor de la selva en cada bocado. Fresas frescas con crema artesanal desde Oruro, Bolivia.</p>
+        <div class="footer-social" style="margin-top:16px;">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://wa.me/59178606168" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">🏠 Inicio</a></li>
+          <li><a href="productos.html">🍓 Productos</a></li>
+          <li><a href="promociones.html">🏷️ Promociones</a></li>
+          <li><a href="nosotros.html">👥 Nosotros</a></li>
+          <li><a href="galeria.html">🖼️ Galería</a></li>
+          <li><a href="contacto.html">✉️ Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</a></li>
+          <li><a href="https://wa.me/59178606168"><i class="fa-brands fa-whatsapp"></i> +591 78606168</a></li>
+          <li><a href="mailto:fernandokenta@gmail.com"><i class="fa-regular fa-envelope"></i> fernandokenta@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Frutikóng – Fresas con Crema. Todos los derechos reservados. 🍓</p>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOTANTE -->
+  <a href="https://wa.me/59178606168" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nombre   = document.getElementById('nombre').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const asunto   = document.getElementById('asunto').value;
+      const mensaje  = document.getElementById('mensaje').value.trim();
+
+      if (!nombre || !telefono || !asunto || !mensaje) {
+        alert('Por favor completa todos los campos obligatorios (*)');
+        return;
+      }
+
+      const text = encodeURIComponent(
+        `¡Hola Frutikóng! 🍓\n\n` +
+        `*Nombre:* ${nombre}\n` +
+        `*Teléfono:* ${telefono}\n` +
+        `*Asunto:* ${asunto}\n\n` +
+        `*Mensaje:*\n${mensaje}`
+      );
+      window.open(`https://wa.me/59178606168?text=${text}`, '_blank');
+
+      this.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    });
+  </script>
+<script src="auth.js"></script></body>
+</html>
+
+
+

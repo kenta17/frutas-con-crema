@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frutikóng – Promociones</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Countdown Banner ── */
+    .countdown-banner {
+      background: linear-gradient(135deg, #e8192c, #ff6b4a);
+      color: var(--blanco);
+      text-align: center;
+      padding: 18px 20px;
+    }
+    .countdown-banner p { font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
+    .countdown {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      align-items: center;
+    }
+    .cd-item {
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 8px 16px;
+      text-align: center;
+      min-width: 64px;
+    }
+    .cd-item .cd-num {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+    .cd-item .cd-label { font-size: 0.72rem; opacity: 0.85; }
+    .cd-sep { font-size: 1.6rem; font-weight: 800; }
+
+    /* ── Promo cards ── */
+    .promos-section { padding: 60px 20px; }
+    .promos-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+    }
+    .promo-card {
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 6px 22px var(--sombra);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .promo-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.18);
+    }
+    .promo-header {
+      padding: 28px 24px 20px;
+      color: var(--blanco);
+      position: relative;
+      overflow: hidden;
+    }
+    .promo-header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px; left: -10px; right: -10px;
+      height: 40px;
+      background: var(--blanco);
+      border-radius: 50%;
+    }
+    .promo-emoji { font-size: 3.2rem; margin-bottom: 10px; }
+    .promo-header h3 { font-size: 1.5rem; margin-bottom: 4px; }
+    .promo-header .promo-subtitle { font-size: 0.9rem; opacity: 0.9; }
+    .promo-badge {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: var(--amarillo);
+      color: var(--marron);
+      font-weight: 800;
+      font-size: 0.8rem;
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+    .promo-body {
+      background: var(--blanco);
+      padding: 32px 24px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .promo-detail {
+      font-size: 0.92rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .promo-price {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .promo-price .old-price {
+      font-size: 1rem;
+      color: #aaa;
+      text-decoration: line-through;
+    }
+    .promo-price .new-price {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      color: var(--rojo-fresa);
+    }
+    .promo-price .save-badge {
+      background: var(--verde-claro);
+      color: var(--blanco);
+      border-radius: 12px;
+      padding: 3px 10px;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+    .promo-validity {
+      font-size: 0.8rem;
+      color: #999;
+      margin-bottom: 16px;
+    }
+    .promo-validity i { margin-right: 4px; }
+
+    /* ── Combos ── */
+    .combos-section { background: var(--crema); padding: 60px 20px; }
+    .combos-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .combo-card {
+      background: var(--blanco);
+      border-radius: 18px;
+      padding: 28px 24px;
+      box-shadow: 0 4px 16px var(--sombra);
+      text-align: center;
+      transition: transform 0.2s;
+      border: 2px solid transparent;
+    }
+    .combo-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--verde-claro);
+    }
+    .combo-card.featured-combo {
+      border-color: var(--amarillo);
+      background: linear-gradient(135deg, #fffde7, #fff9c4);
+    }
+    .combo-emoji { font-size: 3rem; margin-bottom: 12px; }
+    .combo-card h3 { font-size: 1.25rem; color: var(--verde-selva); margin-bottom: 8px; }
+    .combo-card p { font-size: 0.88rem; color: #666; line-height: 1.5; margin-bottom: 14px; }
+    .combo-price {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.6rem;
+      color: var(--rojo-fresa);
+      margin-bottom: 16px;
+    }
+    .combo-includes {
+      text-align: left;
+      list-style: none;
+      margin-bottom: 20px;
+    }
+    .combo-includes li {
+      font-size: 0.88rem;
+      color: #555;
+      padding: 3px 0;
+    }
+    .combo-includes li::before { content: '✅ '; }
+
+    /* ── Newsletter ── */
+    .newsletter-section {
+      background: var(--gradiente-hero);
+      color: var(--blanco);
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .newsletter-section h2 { font-size: 2rem; margin-bottom: 10px; }
+    .newsletter-section p { opacity: 0.9; margin-bottom: 28px; font-size: 1rem; }
+    .newsletter-form {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .newsletter-form input {
+      flex: 1;
+      min-width: 220px;
+      padding: 13px 20px;
+      border-radius: 30px;
+      border: none;
+      outline: none;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+    }
+    .newsletter-form button {
+      padding: 13px 26px;
+      border-radius: 30px;
+      background: var(--rojo-fresa);
+      color: var(--blanco);
+      border: none;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .newsletter-form button:hover { background: #c0102a; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-info">
+      <span><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</span>
+      <span><i class="fa-solid fa-truck-fast"></i> Envíos rápidos en la ciudad</span>
+    </div>
+    <div class="top-right">
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+      <span style="opacity:0.4">|</span>
+      <div class="top-auth" style="display:flex;gap:14px;" id="topAuth">
+        <a href="login.html" id="linkLogin"><i class="fa-regular fa-user"></i> Iniciar sesión</a>
+        <a href="registro.html" id="linkRegistro"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+        <span id="linkNombre" style="display:none;align-items:center;gap:6px;font-weight:700;"><i class="fa-solid fa-circle-user"></i> <span id="spanNombre"></span></span>
+        <a href="miembros.html" id="linkMiZona" style="display:none;align-items:center;gap:4px;font-weight:700;"><i class="fa-solid fa-star"></i> Mi zona</a>
+        <a href="#" id="linkSalir" style="display:none;align-items:center;gap:4px;opacity:0.85;font-size:0.82rem;"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><i class="fa-solid fa-house"></i> Inicio</a></li>
+        <li><a href="productos.html"><i class="fa-solid fa-bowl-food"></i> Productos</a></li>
+        <li><a href="promociones.html" class="active"><i class="fa-solid fa-tags"></i> Promociones</a></li>
+        <li><a href="nosotros.html"><i class="fa-solid fa-users"></i> Nosotros</a></li>
+        <li><a href="galeria.html"><i class="fa-regular fa-image"></i> Galería</a></li>
+        <li><a href="contacto.html"><i class="fa-regular fa-envelope"></i> Contacto</a></li>
+      </ul>
+      <div class="navbar-right">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color:#aaa;font-size:.85rem;"></i>
+          <input type="text" placeholder="Buscar productos..." aria-label="Buscar" />
+        </div>
+        <button class="cart-btn" aria-label="Carrito">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>🏷️ Promociones</h1>
+    <p>Ofertas especiales y combos irresistibles para ti</p>
+  </header>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-banner">
+    <p>🔥 ¡Oferta especial de la semana! Termina en:</p>
+    <div class="countdown">
+      <div class="cd-item"><div class="cd-num" id="cd-days">03</div><div class="cd-label">Días</div></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-item"><div class="cd-num" id="cd-hours">12</div><div class="cd-label">Horas</div></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-item"><div class="cd-num" id="cd-mins">45</div><div class="cd-label">Minutos</div></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-item"><div class="cd-num" id="cd-secs">00</div><div class="cd-label">Segundos</div></div>
+    </div>
+  </div>
+
+  <!-- PROMOS -->
+  <section class="promos-section">
+    <div class="section-title">
+      <h2>🎉 Ofertas Especiales</h2>
+      <p>Aprovecha nuestras promociones por tiempo limitado</p>
+    </div>
+    <div class="promos-grid">
+
+      <div class="promo-card">
+        <div class="promo-header" style="background:linear-gradient(135deg,#e8192c,#ff4d6a);">
+          <span class="promo-badge">🔥 HOT</span>
+          <div class="promo-emoji">🍓🍓</div>
+          <h3>2×1 en Copas Chicas</h3>
+          <p class="promo-subtitle">¡Lleva dos y paga una!</p>
+        </div>
+        <div class="promo-body">
+          <p class="promo-detail">
+            Todos los días de 14:00 a 17:00 horas. Válido en cualquier sabor en tamaño chica. 
+            La segunda copa es del mismo sabor o sabor diferente.
+          </p>
+          <div class="promo-price">
+            <span class="old-price">Bs 24</span>
+            <span class="new-price">Bs 12</span>
+            <span class="save-badge">Ahorras Bs 12</span>
+          </div>
+          <p class="promo-validity"><i class="fa-regular fa-clock"></i> Lunes a Viernes · 14:00 – 17:00</p>
+          <a href="contacto.html" class="btn-primary" style="justify-content:center;">
+            <i class="fa-brands fa-whatsapp"></i> Aprovechar oferta
+          </a>
+        </div>
+      </div>
+
+      <div class="promo-card">
+        <div class="promo-header" style="background:linear-gradient(135deg,#2d7a1f,#4caf50);">
+          <span class="promo-badge">🌿 Verde</span>
+          <div class="promo-emoji">🥤🥤🥤</div>
+          <h3>Combo Familiar</h3>
+          <p class="promo-subtitle">3 copas medianas + 1 grande</p>
+        </div>
+        <div class="promo-body">
+          <p class="promo-detail">
+            Ideal para compartir en familia. Incluye 3 copas medianas de cualquier sabor 
+            más 1 copa grande, con un extra gratis a elegir.
+          </p>
+          <div class="promo-price">
+            <span class="old-price">Bs 64</span>
+            <span class="new-price">Bs 52</span>
+            <span class="save-badge">Ahorras Bs 12</span>
+          </div>
+          <p class="promo-validity"><i class="fa-regular fa-clock"></i> Fines de semana únicamente</p>
+          <a href="contacto.html" class="btn-primary" style="justify-content:center;">
+            <i class="fa-brands fa-whatsapp"></i> Aprovechar oferta
+          </a>
+        </div>
+      </div>
+
+      <div class="promo-card">
+        <div class="promo-header" style="background:linear-gradient(135deg,#f9c800,#ffb300);">
+          <span class="promo-badge">⭐ TOP</span>
+          <div class="promo-emoji">🎂🍓</div>
+          <h3>Promo Cumpleaños</h3>
+          <p class="promo-subtitle">¡Celebra con nosotros!</p>
+        </div>
+        <div class="promo-body">
+          <p class="promo-detail">
+            En tu cumpleaños recibe una copa mediana completamente gratis. 
+            Solo muéstranos tu CI o carnet de identidad en el día de tu cumpleaños.
+          </p>
+          <div class="promo-price">
+            <span class="old-price">Bs 15</span>
+            <span class="new-price">¡GRATIS!</span>
+          </div>
+          <p class="promo-validity"><i class="fa-regular fa-clock"></i> Solo el día de tu cumpleaños</p>
+          <a href="contacto.html" class="btn-primary" style="justify-content:center;">
+            <i class="fa-brands fa-whatsapp"></i> Reservar
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMBOS -->
+  <section class="combos-section">
+    <div class="section-title">
+      <h2>🎁 Nuestros Combos</h2>
+      <p>Combinaciones pensadas para que disfrutes al máximo</p>
+    </div>
+    <div class="combos-grid">
+
+      <div class="combo-card">
+        <div class="combo-emoji">💑</div>
+        <h3>Combo Pareja</h3>
+        <p>Perfecto para una salida romántica o una tarde con tu persona especial.</p>
+        <div class="combo-price">Bs 30</div>
+        <ul class="combo-includes">
+          <li>2 copas medianas a elegir</li>
+          <li>1 extra gratis por copa</li>
+          <li>Entrega en mesa decorada</li>
+        </ul>
+        <a href="contacto.html" class="btn-primary" style="justify-content:center;width:100%;">
+          <i class="fa-brands fa-whatsapp"></i> Pedir combo
+        </a>
+      </div>
+
+      <div class="combo-card featured-combo">
+        <div class="combo-emoji">👨‍👩‍👧‍👦</div>
+        <h3>Combo Familia Kong</h3>
+        <p>El combo más completo para disfrutar en familia sin límites.</p>
+        <div class="combo-price">Bs 60</div>
+        <ul class="combo-includes">
+          <li>4 copas grandes a elegir</li>
+          <li>2 extras gratis por copa</li>
+          <li>Salsa de fresa gratis</li>
+          <li>Entrega prioritaria</li>
+        </ul>
+        <a href="contacto.html" class="btn-primary" style="justify-content:center;width:100%;">
+          <i class="fa-brands fa-whatsapp"></i> Pedir combo
+        </a>
+      </div>
+
+      <div class="combo-card">
+        <div class="combo-emoji">👫</div>
+        <h3>Combo Amigos</h3>
+        <p>¡Para esas tardes con los amigos que siempre recuerdas!</p>
+        <div class="combo-price">Bs 45</div>
+        <ul class="combo-includes">
+          <li>3 copas medianas a elegir</li>
+          <li>1 extra gratis</li>
+          <li>1 salsa gratis</li>
+        </ul>
+        <a href="contacto.html" class="btn-primary" style="justify-content:center;width:100%;">
+          <i class="fa-brands fa-whatsapp"></i> Pedir combo
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter-section">
+    <h2>📲 ¡No te pierdas nuestras ofertas!</h2>
+    <p>Síguenos en redes sociales o déjanos tu WhatsApp para recibir las mejores promos</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:10px;">
+      <a href="#" class="btn-primary" style="background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);">
+        <i class="fa-brands fa-facebook-f"></i> Facebook
+      </a>
+      <a href="#" class="btn-primary" style="background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);">
+        <i class="fa-brands fa-instagram"></i> Instagram
+      </a>
+      <a href="#" class="btn-primary" style="background:#25D366;border:2px solid #25D366;">
+        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+        <p>El sabor de la selva en cada bocado. Fresas frescas con crema artesanal desde Oruro, Bolivia.</p>
+        <div class="footer-social" style="margin-top:16px;">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">🏠 Inicio</a></li>
+          <li><a href="productos.html">🍓 Productos</a></li>
+          <li><a href="promociones.html">🏷️ Promociones</a></li>
+          <li><a href="nosotros.html">👥 Nosotros</a></li>
+          <li><a href="galeria.html">🖼️ Galería</a></li>
+          <li><a href="contacto.html">✉️ Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</a></li>
+          <li><a href="https://wa.me/59170000000"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></li>
+          <li><a href="mailto:frutikong@email.com"><i class="fa-regular fa-envelope"></i> frutikong@email.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Frutikóng – Fresas con Crema. Todos los derechos reservados. 🍓</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Countdown hacia el próximo domingo
+    function getNextSunday() {
+      const now = new Date();
+      const day = now.getDay();
+      const diff = (7 - day) % 7 || 7;
+      const next = new Date(now);
+      next.setDate(now.getDate() + diff);
+      next.setHours(23, 59, 59, 0);
+      return next;
+    }
+    const target = getNextSunday();
+    function updateCountdown() {
+      const now  = new Date();
+      const diff = target - now;
+      if (diff <= 0) return;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000)  / 60000);
+      const s = Math.floor((diff % 60000)    / 1000);
+      document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+      document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+      document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
+      document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+<script src="auth.js"></script></body>
+</html>
+
+
+

@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frutikóng – Zona de Miembros</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── Acceso denegado ── */
+    .acceso-denegado {
+      min-height: 80vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 40px 20px;
+    }
+    .acceso-denegado .lock-icon { font-size: 5rem; margin-bottom: 16px; }
+    .acceso-denegado h2 { font-size: 2rem; color: var(--verde-selva); margin-bottom: 10px; }
+    .acceso-denegado p  { color: #888; font-size: 1rem; margin-bottom: 24px; max-width: 400px; }
+
+    /* ── Hero bienvenida ── */
+    .miembro-hero {
+      background: linear-gradient(135deg, #2d7a1f, #4caf50);
+      color: #fff;
+      padding: 50px 20px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .miembro-hero::before {
+      content: '🌿🍓🌿🍓🌿🍓🌿🍓🌿🍓🌿🍓';
+      position: absolute; top: 8px; left: 0; right: 0;
+      font-size: 1.2rem; opacity: 0.2; letter-spacing: 6px;
+    }
+    .miembro-hero h1 { font-size: 2.4rem; margin-bottom: 6px; }
+    .miembro-hero p  { font-size: 1rem; opacity: 0.9; }
+    .usuario-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 30px; padding: 6px 18px;
+      font-weight: 700; font-size: 0.95rem;
+      margin-bottom: 16px;
+    }
+
+    /* ── Imagen de bienvenida ── */
+    .bienvenida-section {
+      padding: 50px 20px;
+      text-align: center;
+    }
+    .bienvenida-img-wrap {
+      max-width: 700px;
+      margin: 0 auto 30px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+    .bienvenida-img-wrap img {
+      width: 100%; height: auto; display: block;
+    }
+    /* Placeholder si no hay imagen */
+    .bienvenida-placeholder {
+      background: linear-gradient(135deg, #e8f5e0, #f0fbe8);
+      border: 3px dashed var(--verde-claro);
+      border-radius: 24px;
+      padding: 60px 30px;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      text-align: center;
+    }
+    .bienvenida-placeholder .ph-emoji { font-size: 5rem; margin-bottom: 14px; }
+    .bienvenida-placeholder h3 {
+      font-size: 1.5rem; color: var(--verde-selva); margin-bottom: 8px;
+    }
+    .bienvenida-placeholder p { color: #888; font-size: 0.9rem; }
+
+    /* ── Beneficios ── */
+    .beneficios-section { background: var(--crema); padding: 50px 20px; }
+    .beneficios-grid {
+      max-width: 1000px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+    .beneficio-card {
+      background: #fff; border-radius: 20px;
+      padding: 28px 22px; text-align: center;
+      box-shadow: 0 4px 16px var(--sombra);
+      transition: transform 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .beneficio-card:hover { transform: translateY(-4px); }
+    .beneficio-card .prox-badge {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--amarillo); color: var(--marron);
+      border-radius: 20px; padding: 2px 10px;
+      font-size: 0.72rem; font-weight: 800;
+    }
+    .beneficio-icon { font-size: 2.8rem; margin-bottom: 12px; }
+    .beneficio-card h3 { font-size: 1.1rem; color: var(--verde-selva); margin-bottom: 8px; }
+    .beneficio-card p  { font-size: 0.86rem; color: #777; line-height: 1.55; }
+    .beneficio-card.activo { border: 2px solid var(--verde-claro); }
+    .beneficio-card.proximamente { opacity: 0.7; }
+
+    /* ── Cupón de descuento ── */
+    .cupon-section { padding: 50px 20px; text-align: center; }
+    .cupon-box {
+      max-width: 500px; margin: 0 auto;
+      background: linear-gradient(135deg, #fff8ee, #fff3e0);
+      border: 3px dashed var(--amarillo);
+      border-radius: 24px; padding: 36px 28px;
+      box-shadow: 0 4px 20px rgba(249,200,0,0.2);
+    }
+    .cupon-emoji { font-size: 3rem; margin-bottom: 10px; }
+    .cupon-box h3 { font-size: 1.4rem; color: var(--marron); margin-bottom: 8px; }
+    .cupon-box p  { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+    .cupon-codigo {
+      background: var(--amarillo); color: var(--marron);
+      font-family: 'Fredoka One', cursive; font-size: 1.8rem;
+      border-radius: 14px; padding: 12px 28px;
+      display: inline-block; letter-spacing: 4px;
+      box-shadow: 0 3px 10px rgba(249,200,0,0.3);
+      margin-bottom: 14px; cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .cupon-codigo:hover { transform: scale(1.04); }
+    .cupon-hint { font-size: 0.8rem; color: #aaa; }
+
+    /* ── Historial pedidos (próx) ── */
+    .historial-section { background: var(--crema); padding: 50px 20px; }
+    .historial-empty {
+      max-width: 500px; margin: 0 auto; text-align: center;
+      background: #fff; border-radius: 20px; padding: 40px;
+      box-shadow: 0 3px 14px var(--sombra);
+    }
+    .historial-empty .h-emoji { font-size: 3.5rem; margin-bottom: 12px; }
+    .historial-empty h3 { color: var(--verde-selva); margin-bottom: 8px; }
+    .historial-empty p  { font-size: 0.88rem; color: #aaa; }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-info">
+      <span><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</span>
+      <span><i class="fa-solid fa-truck-fast"></i> Envíos rápidos en la ciudad</span>
+    </div>
+    <div class="top-right">
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+      <span style="opacity:0.4">|</span>
+      <div class="top-auth" style="display:flex;gap:14px;" id="topAuth">
+        <a href="login.html" id="linkLogin"><i class="fa-regular fa-user"></i> Iniciar sesión</a>
+        <a href="registro.html" id="linkRegistro"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+        <span id="linkNombre" style="display:none;align-items:center;gap:6px;font-weight:700;"><i class="fa-solid fa-circle-user"></i> <span id="spanNombre"></span></span>
+        <a href="miembros.html" id="linkMiZona" style="display:none;align-items:center;gap:4px;font-weight:700;"><i class="fa-solid fa-star"></i> Mi zona</a>
+        <a href="#" id="linkSalir" style="display:none;align-items:center;gap:4px;opacity:0.85;font-size:0.82rem;"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><i class="fa-solid fa-house"></i> Inicio</a></li>
+        <li><a href="productos.html"><i class="fa-solid fa-bowl-food"></i> Productos</a></li>
+        <li><a href="promociones.html"><i class="fa-solid fa-tags"></i> Promociones</a></li>
+        <li><a href="nosotros.html"><i class="fa-solid fa-users"></i> Nosotros</a></li>
+        <li><a href="galeria.html"><i class="fa-regular fa-image"></i> Galería</a></li>
+        <li><a href="contacto.html"><i class="fa-regular fa-envelope"></i> Contacto</a></li>
+      </ul>
+      <div class="navbar-right">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color:#aaa;font-size:.85rem;"></i>
+          <input type="text" placeholder="Buscar productos..." aria-label="Buscar" />
+        </div>
+        <button class="cart-btn" aria-label="Carrito">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CONTENIDO (se muestra solo si hay sesión) -->
+  <div id="contenidoMiembro" style="display:none;">
+
+    <!-- HERO BIENVENIDA -->
+    <section class="miembro-hero">
+      <div class="usuario-badge">
+        <i class="fa-solid fa-star"></i>
+        <span id="nombreUsuario">Miembro</span>
+        <i class="fa-solid fa-star"></i>
+      </div>
+      <h1>🍓 ¡Zona Exclusiva Kong!</h1>
+      <p>Accediste a los beneficios exclusivos para miembros registrados</p>
+    </section>
+
+    <!-- IMAGEN DE BIENVENIDA -->
+    <section class="bienvenida-section">
+      <div class="section-title">
+        <h2>🎉 ¡Bienvenido al Club Frutikóng!</h2>
+        <p>Por registrarte tienes acceso a beneficios exclusivos</p>
+      </div>
+
+      <!-- Cuando tengas la imagen, guárdala como assets/img/bienvenida-miembro.png -->
+      <div id="bienvenidaImgWrap">
+        <img
+          src="assets/img/bienvenida-miembro.png"
+          alt="Bienvenido al Club Frutikóng"
+          style="width:100%;max-width:700px;border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,0.15);display:block;margin:0 auto 30px;"
+          onerror="this.style.display='none';document.getElementById('bienvenidaPlaceholder').style.display='block';"
+        />
+      </div>
+      <div class="bienvenida-placeholder" id="bienvenidaPlaceholder" style="display:none;">
+        <div class="ph-emoji">🎊</div>
+        <h3>¡Ganaste por registrarte!</h3>
+        <p>Aquí irá tu imagen de bienvenida.<br>Guárdala como <strong>assets/img/bienvenida-miembro.png</strong></p>
+      </div>
+    </section>
+
+    <!-- CUPÓN DE BIENVENIDA -->
+    <section class="cupon-section">
+      <div class="section-title">
+        <h2>🎁 Tu cupón de bienvenida</h2>
+        <p>Úsalo en tu próximo pedido</p>
+      </div>
+      <div class="cupon-box">
+        <div class="cupon-emoji">🎟️</div>
+        <h3>¡Descuento de Bienvenida!</h3>
+        <p>Presenta este código al hacer tu pedido y obtén <strong>Bs 3 de descuento</strong> en cualquier copa mediana o grande.</p>
+        <div class="cupon-codigo" id="cuponCodigo" onclick="copiarCupon()" title="Clic para copiar">
+          KONG-BIENVENIDO
+        </div>
+        <p class="cupon-hint">
+          <i class="fa-regular fa-copy"></i> Clic para copiar · Válido por 30 días desde tu registro
+        </p>
+      </div>
+    </section>
+
+    <!-- BENEFICIOS -->
+    <section class="beneficios-section">
+      <div class="section-title">
+        <h2>⭐ Beneficios del Club Kong</h2>
+        <p>Lo que te espera como miembro registrado</p>
+      </div>
+      <div class="beneficios-grid">
+
+        <div class="beneficio-card activo">
+          <div class="beneficio-icon">🎟️</div>
+          <h3>Cupón de bienvenida</h3>
+          <p>Bs 3 de descuento en tu primera copa mediana o grande solo por registrarte.</p>
+        </div>
+
+        <div class="beneficio-card activo">
+          <div class="beneficio-icon">🔔</div>
+          <h3>Promos exclusivas</h3>
+          <p>Serás el primero en enterarte de promociones, combos y sabores nuevos.</p>
+        </div>
+
+        <div class="beneficio-card activo">
+          <div class="beneficio-icon">🎂</div>
+          <h3>Copa de cumpleaños</h3>
+          <p>Una copa mediana gratis el día de tu cumpleaños. ¡Solo muestra tu cuenta!</p>
+        </div>
+
+        <div class="beneficio-card proximamente">
+          <span class="prox-badge">Próximamente</span>
+          <div class="beneficio-icon">🏆</div>
+          <h3>Sistema de puntos</h3>
+          <p>Acumula puntos por cada compra y canjéalos por copas gratis.</p>
+        </div>
+
+        <div class="beneficio-card proximamente">
+          <span class="prox-badge">Próximamente</span>
+          <div class="beneficio-icon">📦</div>
+          <h3>Historial de pedidos</h3>
+          <p>Revisa todos tus pedidos anteriores y repite el tuyo favorito con un clic.</p>
+        </div>
+
+        <div class="beneficio-card proximamente">
+          <span class="prox-badge">Próximamente</span>
+          <div class="beneficio-icon">🎯</div>
+          <h3>Retos y sorteos</h3>
+          <p>Participa en sorteos mensuales exclusivos para miembros del club.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HISTORIAL (próximamente) -->
+    <section class="historial-section">
+      <div class="section-title">
+        <h2>📦 Mis pedidos</h2>
+        <p>Historial de tus compras en Frutikóng</p>
+      </div>
+      <div class="historial-empty">
+        <div class="h-emoji">🛒</div>
+        <h3>Aún no tienes pedidos</h3>
+        <p>Cuando hagas tu primer pedido aparecerá aquí. ¡Anímate a pedir!</p>
+        <a href="productos.html" class="btn-primary" style="margin-top:16px;display:inline-flex;">
+          <i class="fa-solid fa-bowl-food"></i> Ver productos
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ACCESO DENEGADO (si no hay sesión) -->
+  <div id="accesoDenegado" style="display:none;">
+    <div class="acceso-denegado">
+      <div class="lock-icon">🔒</div>
+      <h2>Zona exclusiva para miembros</h2>
+      <p>Esta sección es solo para miembros registrados de Frutikóng. ¡Únete gratis y accede a beneficios exclusivos!</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;">
+        <a href="registro.html" class="btn-primary">
+          <i class="fa-solid fa-user-plus"></i> Registrarme gratis
+        </a>
+        <a href="login.html" class="btn-secondary">
+          <i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+        <p>El sabor de la selva en cada bocado. Fresas frescas con crema artesanal desde Oruro, Bolivia.</p>
+        <div class="footer-social" style="margin-top:16px;">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://wa.me/59178606168" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">🏠 Inicio</a></li>
+          <li><a href="productos.html">🍓 Productos</a></li>
+          <li><a href="promociones.html">🏷️ Promociones</a></li>
+          <li><a href="nosotros.html">👥 Nosotros</a></li>
+          <li><a href="galeria.html">🖼️ Galería</a></li>
+          <li><a href="contacto.html">✉️ Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</a></li>
+          <li><a href="https://wa.me/59178606168"><i class="fa-brands fa-whatsapp"></i> +591 78606168</a></li>
+          <li><a href="mailto:fernandokenta@gmail.com"><i class="fa-regular fa-envelope"></i> fernandokenta@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Frutikóng – Fresas con Crema. Todos los derechos reservados. 🍓</p>
+    </div>
+  </footer>
+
+  <script src="carrito.js"></script>
+  <script src="auth.js"></script>
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // Verificar sesión
+    const usuario = getUsuario();
+    if (usuario) {
+      document.getElementById('contenidoMiembro').style.display = 'block';
+      document.getElementById('accesoDenegado').style.display   = 'none';
+      document.getElementById('nombreUsuario').textContent = usuario.nombre;
+    } else {
+      document.getElementById('contenidoMiembro').style.display = 'none';
+      document.getElementById('accesoDenegado').style.display   = 'block';
+    }
+
+    // Copiar cupón
+    function copiarCupon() {
+      navigator.clipboard.writeText('KONG-BIENVENIDO').then(() => {
+        const el = document.getElementById('cuponCodigo');
+        const orig = el.textContent;
+        el.textContent = '¡Copiado! ✓';
+        el.style.background = '#4caf50';
+        el.style.color = '#fff';
+        setTimeout(() => {
+          el.textContent = orig;
+          el.style.background = '';
+          el.style.color = '';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
+

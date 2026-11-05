@@ -1,0 +1,441 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frutikóng – Galería</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .gallery-section { padding: 50px 20px 60px; }
+
+    /* Filtros */
+    .filter-bar {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      justify-content: center; margin-bottom: 36px;
+    }
+    .filter-btn {
+      padding: 8px 20px; border-radius: 30px;
+      border: 2px solid var(--verde-selva);
+      background: transparent; color: var(--verde-selva);
+      font-family: 'Nunito', sans-serif; font-weight: 700;
+      font-size: 0.9rem; cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--verde-selva); color: var(--blanco);
+    }
+
+    /* Grid masonry */
+    .gallery-grid {
+      max-width: 1200px; margin: 0 auto;
+      columns: 4; column-gap: 14px;
+    }
+
+    .gallery-item {
+      break-inside: avoid; margin-bottom: 14px;
+      border-radius: 14px; overflow: hidden;
+      position: relative; cursor: pointer;
+      box-shadow: 0 3px 12px var(--sombra);
+      transition: transform 0.25s, box-shadow 0.25s;
+      background: #e8f0e0;
+    }
+    .gallery-item:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    /* Imagen real */
+    .gallery-item img.g-foto {
+      width: 100%; display: block; height: auto;
+      object-fit: cover; border-radius: 14px;
+      transition: transform 0.3s;
+    }
+    .gallery-item:hover img.g-foto { transform: scale(1.04); }
+
+    /* Placeholder cuando no hay imagen */
+    .g-placeholder-real {
+      width: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 8px; color: rgba(0,0,0,0.3);
+      font-weight: 700; font-size: 0.85rem;
+      font-family: 'Nunito', sans-serif;
+    }
+    .g-placeholder-real .ph-emoji { font-size: 3rem; }
+    .g-placeholder-real.tall   { min-height: 260px; }
+    .g-placeholder-real.medium { min-height: 200px; }
+    .g-placeholder-real.short  { min-height: 160px; }
+
+    /* Overlay */
+    .g-overlay {
+      position: absolute; inset: 0;
+      background: rgba(45,122,31,0.75);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: var(--blanco); opacity: 0;
+      transition: opacity 0.25s; border-radius: 14px;
+      padding: 16px; text-align: center;
+    }
+    .gallery-item:hover .g-overlay { opacity: 1; }
+    .g-overlay i { font-size: 1.8rem; margin-bottom: 8px; }
+    .g-overlay .g-title { font-family: 'Fredoka One', cursive; font-size: 1.05rem; margin-bottom: 3px; }
+    .g-overlay .g-sub   { font-size: 0.82rem; opacity: 0.9; }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.92); z-index: 2000;
+      align-items: center; justify-content: center;
+      flex-direction: column; padding: 20px;
+    }
+    .lightbox.open { display: flex; }
+    .lb-img-wrap {
+      position: relative; max-width: 860px; width: 100%;
+    }
+    .lb-img-wrap img {
+      width: 100%; max-height: 75vh; object-fit: contain;
+      border-radius: 16px; display: block;
+    }
+    /* Placeholder en lightbox */
+    .lb-placeholder {
+      width: 100%; height: 340px;
+      background: #222; border-radius: 16px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: #555; font-size: 4rem; gap: 12px;
+    }
+    .lb-placeholder p { font-family: 'Fredoka One',cursive; font-size: 1rem; color: #666; }
+    .lb-info {
+      margin-top: 14px; text-align: center; color: #fff;
+    }
+    .lb-info .lb-title { font-family: 'Fredoka One',cursive; font-size: 1.3rem; margin-bottom: 4px; }
+    .lb-info .lb-sub   { font-size: 0.9rem; opacity: 0.7; }
+    .lb-close {
+      position: fixed; top: 20px; right: 24px;
+      font-size: 1.6rem; cursor: pointer; color: #fff;
+      background: rgba(255,255,255,0.15); border: none;
+      width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lb-close:hover { background: var(--rojo-fresa); }
+    .lb-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.15); border: none;
+      color: #fff; width: 44px; height: 44px; border-radius: 50%;
+      font-size: 1.2rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lb-nav:hover { background: rgba(255,255,255,0.3); }
+    .lb-prev { left: 16px; }
+    .lb-next { right: 16px; }
+
+    /* ── CTA compartir ── */
+    .upload-cta { background: var(--crema); padding: 50px 20px; text-align: center; }
+    .upload-cta h2 { font-size: 1.9rem; color: var(--verde-selva); margin-bottom: 10px; }
+    .upload-cta p  { color: #666; margin-bottom: 24px; font-size: 0.97rem; }
+    .social-share  { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: 30px; font-weight: 700;
+      font-size: 0.92rem; color: var(--blanco); text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .share-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.2); }
+    .share-fb { background: #1877f2; }
+    .share-ig { background: linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .share-tt { background: #010101; }
+    .share-wa { background: #25D366; }
+
+    @media (max-width: 1000px) { .gallery-grid { columns: 3; } }
+    @media (max-width: 700px)  { .gallery-grid { columns: 2; } }
+    @media (max-width: 460px)  { .gallery-grid { columns: 1; } }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-info">
+      <span><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</span>
+      <span><i class="fa-solid fa-truck-fast"></i> Envíos rápidos en la ciudad</span>
+    </div>
+    <div class="top-right">
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+      <span style="opacity:0.4">|</span>
+      <div class="top-auth" style="display:flex;gap:14px;" id="topAuth">
+        <a href="login.html" id="linkLogin"><i class="fa-regular fa-user"></i> Iniciar sesión</a>
+        <a href="registro.html" id="linkRegistro"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
+        <span id="linkNombre" style="display:none;align-items:center;gap:6px;font-weight:700;"><i class="fa-solid fa-circle-user"></i> <span id="spanNombre"></span></span>
+        <a href="miembros.html" id="linkMiZona" style="display:none;align-items:center;gap:4px;font-weight:700;"><i class="fa-solid fa-star"></i> Mi zona</a>
+        <a href="#" id="linkSalir" style="display:none;align-items:center;gap:4px;opacity:0.85;font-size:0.82rem;"><i class="fa-solid fa-right-from-bracket"></i> Salir</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo-wrap">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html"><i class="fa-solid fa-house"></i> Inicio</a></li>
+        <li><a href="productos.html"><i class="fa-solid fa-bowl-food"></i> Productos</a></li>
+        <li><a href="promociones.html"><i class="fa-solid fa-tags"></i> Promociones</a></li>
+        <li><a href="nosotros.html"><i class="fa-solid fa-users"></i> Nosotros</a></li>
+        <li><a href="galeria.html" class="active"><i class="fa-regular fa-image"></i> Galería</a></li>
+        <li><a href="contacto.html"><i class="fa-regular fa-envelope"></i> Contacto</a></li>
+      </ul>
+      <div class="navbar-right">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass" style="color:#aaa;font-size:.85rem;"></i>
+          <input type="text" placeholder="Buscar productos..." aria-label="Buscar" />
+        </div>
+        <button class="cart-btn" aria-label="Carrito">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge">0</span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <header class="page-header">
+    <h1>🖼️ Galería</h1>
+    <p>Descubre nuestras deliciosas creaciones en imágenes</p>
+  </header>
+
+  <!-- GALERÍA -->
+  <section class="gallery-section">
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="productos">🍓 Productos</button>
+      <button class="filter-btn" data-filter="local">🏪 Local</button>
+      <button class="filter-btn" data-filter="clientes">😊 Clientes</button>
+      <button class="filter-btn" data-filter="proceso">👨‍🍳 Proceso</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- Las imágenes se definen en el array de JS abajo -->
+      <!-- Se generan automáticamente al cargar la página  -->
+
+    </div>
+  </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <button class="lb-close" id="lbClose" aria-label="Cerrar">✕</button>
+    <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior">‹</button>
+    <button class="lb-nav lb-next" id="lbNext" aria-label="Siguiente">›</button>
+    <div class="lb-img-wrap">
+      <img id="lbImg" src="" alt="" style="display:none;" />
+      <div class="lb-placeholder" id="lbPlaceholder">
+        <span id="lbEmoji">🍓</span>
+        <p id="lbPlaceholderTxt">Imagen próximamente</p>
+      </div>
+    </div>
+    <div class="lb-info">
+      <div class="lb-title" id="lbTitle"></div>
+      <div class="lb-sub"   id="lbSub"></div>
+    </div>
+  </div>
+
+  <!-- COMPARTE -->
+  <section class="upload-cta">
+    <h2>📸 ¡Comparte tu Frutikóng!</h2>
+    <p>Etiquétanos en tus fotos y aparece en nuestra galería. Usa el hashtag <strong>#Frutikóng</strong></p>
+    <div class="social-share">
+      <a href="#" class="share-btn share-fb"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+      <a href="#" class="share-btn share-ig"><i class="fa-brands fa-instagram"></i> Instagram</a>
+      <a href="#" class="share-btn share-tt"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+      <a href="https://wa.me/59178606168" class="share-btn share-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/img/logo.png" alt="Frutikóng logo" />
+        <p>El sabor de la selva en cada bocado. Fresas frescas con crema artesanal desde Oruro, Bolivia.</p>
+        <div class="footer-social" style="margin-top:16px;">
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="https://wa.me/59178606168" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="index.html">🏠 Inicio</a></li>
+          <li><a href="productos.html">🍓 Productos</a></li>
+          <li><a href="promociones.html">🏷️ Promociones</a></li>
+          <li><a href="nosotros.html">👥 Nosotros</a></li>
+          <li><a href="galeria.html">🖼️ Galería</a></li>
+          <li><a href="contacto.html">✉️ Contacto</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="#"><i class="fa-solid fa-location-dot"></i> Oruro, Bolivia</a></li>
+          <li><a href="https://wa.me/59178606168"><i class="fa-brands fa-whatsapp"></i> +591 78606168</a></li>
+          <li><a href="mailto:fernandokenta@gmail.com"><i class="fa-regular fa-envelope"></i> fernandokenta@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Frutikóng – Fresas con Crema. Todos los derechos reservados. 🍓</p>
+    </div>
+  </footer>
+
+  <script src="carrito.js"></script>
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    // ══════════════════════════════════════════════
+    //  DEFINE AQUÍ TUS IMÁGENES
+    //  cat: "productos" | "local" | "clientes" | "proceso"
+    //  img: nombre del archivo en assets/img/
+    //  Si no tienes la imagen aún, deja img: null y se muestra placeholder
+    // ══════════════════════════════════════════════
+    const FOTOS = [
+      { img: 'galeria-01.jpg', cat: 'productos', title: 'Copa Clásica',          sub: 'Fresas con crema natural',        emoji: '🍓', size: 'tall'   },
+      { img: 'galeria-02.jpeg', cat: 'productos', title: 'Copa Chocolate',         sub: 'Irresistible combinación',        emoji: '🍫', size: 'medium' },
+      { img: 'galeria-03.jpeg', cat: 'clientes',  title: 'Cliente feliz',          sub: '¡Gracias por tu visita!',         emoji: '😊', size: 'short'  },
+      { img: 'galeria-04.jpeg', cat: 'productos', title: 'Copa Maracuyá',          sub: 'Sabor tropical exótico',          emoji: '🌟', size: 'medium' },
+      { img: 'galeria-05.jpeg', cat: 'proceso',   title: 'Preparación',            sub: 'Ingredientes frescos cada día',   emoji: '👨‍🍳', size: 'tall'   },
+      { img: 'galeria-06.jpeg', cat: 'productos', title: 'Copa Mango',             sub: 'Dulce y tropical',                emoji: '🥭', size: 'short'  },
+      { img: 'galeria-07.jpeg', cat: 'local',     title: 'Nuestro Local',          sub: 'Oruro, Bolivia',                  emoji: '🏪', size: 'medium' },
+      { img: 'galeria-08.jpeg', cat: 'clientes',  title: 'Grupo de amigos',        sub: '¡La mejor tarde!',                emoji: '👫', size: 'tall'   },
+      { img: 'galeria-09.jpeg', cat: 'proceso',   title: 'Fresas frescas',         sub: 'Seleccionadas cada mañana',       emoji: '🍓', size: 'short'  },
+      { img: 'galeria-10.jpeg', cat: 'productos', title: 'Frutos del Bosque',      sub: 'Con arándanos y mora',            emoji: '🫐', size: 'medium' },
+      { img: 'galeria-11.jpeg', cat: 'local',     title: 'Delivery Kong',          sub: 'Llevamos tu pedido a casa',       emoji: '🛵', size: 'short'  },
+      { img: 'galeria-12.jpeg', cat: 'clientes',  title: 'Familia Frutikóng',      sub: '¡Gracias por elegirnos!',         emoji: '👨‍👩‍👧‍👦', size: 'tall'   },
+    ];
+
+    // ── Construir grid ──
+    const grid = document.getElementById('galleryGrid');
+
+    function buildGallery(filter) {
+      grid.innerHTML = '';
+      const visible = FOTOS.filter(f => filter === 'all' || f.cat === filter);
+      if (visible.length === 0) {
+        grid.innerHTML = `<p style="text-align:center;color:#aaa;font-family:'Fredoka One',cursive;padding:40px;grid-column:1/-1;">Sin fotos en esta categoría aún 📷</p>`;
+        return;
+      }
+      visible.forEach((foto, idx) => {
+        const div = document.createElement('div');
+        div.className = 'gallery-item';
+        div.dataset.cat   = foto.cat;
+        div.dataset.title = foto.title;
+        div.dataset.sub   = foto.sub;
+        div.dataset.idx   = FOTOS.indexOf(foto);
+
+        const imgSrc = `assets/img/${foto.img}`;
+        div.innerHTML = `
+          ${foto.img
+            ? `<img class="g-foto" src="${imgSrc}" alt="${foto.title}"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />`
+            : ''}
+          <div class="g-placeholder-real ${foto.size}"
+               style="${foto.img ? 'display:none;' : 'display:flex;'}
+                      background:linear-gradient(135deg,#e8f5e0,#f0fbe8);">
+            <span class="ph-emoji">${foto.emoji}</span>
+            <span>${foto.title}</span>
+          </div>
+          <div class="g-overlay">
+            <i class="fa-solid fa-magnifying-glass-plus"></i>
+            <span class="g-title">${foto.title}</span>
+            <span class="g-sub">${foto.sub}</span>
+          </div>`;
+
+        div.addEventListener('click', () => abrirLightbox(FOTOS.indexOf(foto)));
+        grid.appendChild(div);
+      });
+    }
+
+    buildGallery('all');
+
+    // ── Filtros ──
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        buildGallery(btn.dataset.filter);
+      });
+    });
+
+    // ── Lightbox ──
+    let lbIdx = 0;
+
+    function abrirLightbox(idx) {
+      lbIdx = idx;
+      renderLightbox();
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderLightbox() {
+      const foto  = FOTOS[lbIdx];
+      const img   = document.getElementById('lbImg');
+      const ph    = document.getElementById('lbPlaceholder');
+      document.getElementById('lbTitle').textContent = foto.title;
+      document.getElementById('lbSub').textContent   = foto.sub;
+      document.getElementById('lbEmoji').textContent = foto.emoji;
+      document.getElementById('lbPlaceholderTxt').textContent = foto.title;
+
+      if (foto.img) {
+        img.src = `assets/img/${foto.img}`;
+        img.alt = foto.title;
+        img.style.display = 'block';
+        ph.style.display  = 'none';
+        img.onerror = () => { img.style.display='none'; ph.style.display='flex'; };
+      } else {
+        img.style.display = 'none';
+        ph.style.display  = 'flex';
+      }
+    }
+
+    function cerrarLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('lbClose').addEventListener('click', cerrarLightbox);
+    document.getElementById('lbPrev').addEventListener('click', () => {
+      lbIdx = (lbIdx - 1 + FOTOS.length) % FOTOS.length;
+      renderLightbox();
+    });
+    document.getElementById('lbNext').addEventListener('click', () => {
+      lbIdx = (lbIdx + 1) % FOTOS.length;
+      renderLightbox();
+    });
+    document.getElementById('lightbox').addEventListener('click', e => {
+      if (e.target === document.getElementById('lightbox')) cerrarLightbox();
+    });
+    document.addEventListener('keydown', e => {
+      if (!document.getElementById('lightbox').classList.contains('open')) return;
+      if (e.key === 'Escape')     cerrarLightbox();
+      if (e.key === 'ArrowLeft')  { lbIdx = (lbIdx - 1 + FOTOS.length) % FOTOS.length; renderLightbox(); }
+      if (e.key === 'ArrowRight') { lbIdx = (lbIdx + 1) % FOTOS.length; renderLightbox(); }
+    });
+  </script>
+<script src="auth.js"></script></body>
+</html>
+
+
+
